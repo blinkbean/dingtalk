@@ -35,7 +35,7 @@ func WithAtMobiles(mobiles []string) atOption{
 }
 
 type textMsg struct {
-	MsgType MsgTypeType `json:"msgtype,omitempty"`
+	MsgType msgTypeType `json:"msgtype,omitempty"`
 	Text    textModel   `json:"text,omitempty"`
 	At      atModel     `json:"at,omitempty"`
 }
@@ -54,7 +54,7 @@ func NewTextMsg(content string, opts ...atOption) *textMsg {
 }
 
 type linkMsg struct {
-	MsgType MsgTypeType `json:"msgtype,omitempty"`
+	MsgType msgTypeType `json:"msgtype,omitempty"`
 	Link    linkModel   `json:"link,omitempty"`
 }
 
@@ -73,7 +73,7 @@ func NewLinkMsg(title, text, picUrl, msgUrl string) *linkMsg {
 }
 
 type markDownMsg struct {
-	MsgType  MsgTypeType   `json:"msgtype,omitempty"`
+	MsgType  msgTypeType   `json:"msgtype,omitempty"`
 	Markdown markDownModel `json:"markdown,omitempty"`
 	At       atModel       `json:"at,omitempty"`
 }
@@ -93,49 +93,49 @@ func NewMarkDownMsg(title string, text interface{}, opts ...atOption) *markDownM
 }
 
 type actionCardOption interface {
-	apply(model *ActionCardModel)
+	apply(model *actionCardModel)
 }
 
 type funcActionCardOption struct {
-	f func(model *ActionCardModel)
+	f func(model *actionCardModel)
 }
 
-func (fdo *funcActionCardOption) apply(do *ActionCardModel)  {
+func (fdo *funcActionCardOption) apply(do *actionCardModel)  {
 	fdo.f(do)
 }
 
-func newFuncActionCardOption(f func(model *ActionCardModel)) *funcActionCardOption{
+func newFuncActionCardOption(f func(model *actionCardModel)) *funcActionCardOption{
 	return &funcActionCardOption{f:f}
 }
 
 
 func WithCardBtnVertical() actionCardOption{
-	return newFuncActionCardOption(func(o *ActionCardModel) {
+	return newFuncActionCardOption(func(o *actionCardModel) {
 		o.BtnOrientation=vertical
 	})
 }
 
 func WithCardSingleTitle(title string) actionCardOption{
-	return newFuncActionCardOption(func(o *ActionCardModel) {
+	return newFuncActionCardOption(func(o *actionCardModel) {
 		o.SingleTitle=title
 	})
 }
 
 func WithCardSingleURL(url string) actionCardOption{
-	return newFuncActionCardOption(func(o *ActionCardModel) {
+	return newFuncActionCardOption(func(o *actionCardModel) {
 		o.SingleURL=url
 	})
 }
 
-func WithCardBtns(btns []ActionCardMultiBtnModel)actionCardOption{
-	return newFuncActionCardOption(func(o *ActionCardModel) {
+func WithCardBtns(btns []actionCardMultiBtnModel)actionCardOption{
+	return newFuncActionCardOption(func(o *actionCardModel) {
 		o.Btns=btns
 	})
 }
 
 type actionCardMsg struct {
-	MsgType    MsgTypeType     `json:"msgtype,omitempty"`
-	ActionCard ActionCardModel `json:"actionCard,omitempty"`
+	MsgType    msgTypeType     `json:"msgtype,omitempty"`
+	ActionCard actionCardModel `json:"actionCard,omitempty"`
 }
 
 func (a actionCardMsg) Marshaler() []byte {
@@ -144,7 +144,7 @@ func (a actionCardMsg) Marshaler() []byte {
 }
 
 func NewActionCardMsg(title, text string, opts ...actionCardOption) *actionCardMsg {
-	card := &actionCardMsg{MsgType: ACTION_CARD, ActionCard:ActionCardModel{
+	card := &actionCardMsg{MsgType: ACTION_CARD, ActionCard:actionCardModel{
 		Title:          title,
 		Text:           text,
 		BtnOrientation: horizontal,
@@ -157,7 +157,7 @@ func NewActionCardMsg(title, text string, opts ...actionCardOption) *actionCardM
 
 
 type feedCardMsg struct {
-	MsgType  MsgTypeType   `json:"msgtype,omitempty"`
+	MsgType  msgTypeType   `json:"msgtype,omitempty"`
 	FeedCard feedCardModel `json:"feedCard,omitempty"`
 }
 
@@ -166,6 +166,6 @@ func (f feedCardMsg) Marshaler() []byte {
 	return b
 }
 
-func NewFeedCardMsg(feedCard []FeedCardLinkModel) *feedCardMsg {
+func NewFeedCardMsg(feedCard []feedCardLinkModel) *feedCardMsg {
 	return &feedCardMsg{MsgType: FEED_CARD, FeedCard:feedCardModel{Links:feedCard}}
 }

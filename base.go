@@ -38,25 +38,25 @@ const (
 	vertical   actionCardBtnOrientationType = "1" // 竖向
 )
 
-type ActionCardModel struct {
+type actionCardModel struct {
 	Title          string                       `json:"title,omitempty"`
 	Text           string                       `json:"text,omitempty"`
 	BtnOrientation actionCardBtnOrientationType `json:"btnOrientation,omitempty"`
 	SingleTitle    string                       `json:"singleTitle,omitempty"`
 	SingleURL      string                       `json:"singleURL,omitempty"`
-	Btns           []ActionCardMultiBtnModel    `json:"btns,omitempty"`
+	Btns           []actionCardMultiBtnModel    `json:"btns,omitempty"`
 }
 
-type ActionCardMultiBtnModel struct {
+type actionCardMultiBtnModel struct {
 	Title     string `json:"title,omitempty"`
 	ActionURL string `json:"actionURL,omitempty"`
 }
 
 type feedCardModel struct {
-	Links []FeedCardLinkModel `json:"links,omitempty"`
+	Links []feedCardLinkModel `json:"links,omitempty"`
 }
 
-type FeedCardLinkModel struct {
+type feedCardLinkModel struct {
 	Title      string `json:"title,omitempty"`
 	MessageURL string `json:"messageURL,omitempty"`
 	PicURL     string `json:"picURL,omitempty"`
