@@ -23,14 +23,6 @@ const (
 	defaultKeepAlive               = 30 * time.Second
 )
 
-type MyHttpClientConfig struct {
-	MaxIdleConns        int
-	MaxIdleConnsPerHost int
-	IdleConnTimeout     int // seconds
-	DialTimeout         int // seconds
-	KeepAlive           int // seconds
-}
-
 func init() {
 	myHTTPClient = initDefaultHTTPClient()
 }
@@ -54,7 +46,7 @@ func initDefaultHTTPClient() *http.Client {
 
 
 
-func DoRequest(ctx context.Context, callMethod string, endPoint string, header map[string]string, body []byte) (*http.Response, error) {
+func doRequest(ctx context.Context, callMethod string, endPoint string, header map[string]string, body []byte) (*http.Response, error) {
 
 	req, err := http.NewRequest(callMethod, endPoint, bytes.NewBuffer(body))
 	if err != nil {

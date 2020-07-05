@@ -2,11 +2,11 @@ package dingtalk
 
 import jsoniter "github.com/json-iterator/go"
 
-type IDingMsg interface {
+type iDingMsg interface {
 	Marshaler() []byte
 }
 
-type AtOption interface {
+type atOption interface {
 	apply(model *atModel)
 }
 
@@ -22,13 +22,13 @@ func newFuncAtOption(f func(model *atModel)) *funcAtOption{
 	return &funcAtOption{f:f}
 }
 
-func WithAtAll() AtOption{
+func WithAtAll() atOption{
 	return newFuncAtOption(func(o *atModel) {
 		o.IsAtAll=true
 	})
 }
 
-func WithAtMobiles(mobiles []string) AtOption{
+func WithAtMobiles(mobiles []string) atOption{
 	return newFuncAtOption(func(o *atModel) {
 		o.AtMobiles=mobiles
 	})
@@ -45,7 +45,7 @@ func (t textMsg) Marshaler() []byte {
 	return b
 }
 
-func NewTextMsg(content string, opts ...AtOption) *textMsg {
+func NewTextMsg(content string, opts ...atOption) *textMsg {
 	msg := &textMsg{MsgType: TEXT, Text:textModel{Content:content}}
 	for _,opt := range opts{
 		opt.apply(&msg.At)
@@ -83,7 +83,7 @@ func (m markDownMsg) Marshaler() []byte {
 	return b
 }
 
-func NewMarkDownMsg(title string, text interface{}, opts ...AtOption) *markDownMsg {
+func NewMarkDownMsg(title string, text interface{}, opts ...atOption) *markDownMsg {
 
 	msg := &markDownMsg{MsgType: MARKDOWN, Markdown:markDownModel{Title:title, Text:text.(string)}}
 	for _,opt := range opts{
@@ -92,7 +92,7 @@ func NewMarkDownMsg(title string, text interface{}, opts ...AtOption) *markDownM
 	return msg
 }
 
-type ActionCardOption interface {
+type actionCardOption interface {
 	apply(model *ActionCardModel)
 }
 
@@ -109,25 +109,25 @@ func newFuncActionCardOption(f func(model *ActionCardModel)) *funcActionCardOpti
 }
 
 
-func WithCardBtnOrientation(orientation actionCardBtnOrientationType) ActionCardOption{
+func WithCardBtnVertical() actionCardOption{
 	return newFuncActionCardOption(func(o *ActionCardModel) {
-		o.BtnOrientation=orientation
+		o.BtnOrientation=vertical
 	})
 }
 
-func WithCardSingleTitle(title string) ActionCardOption{
+func WithCardSingleTitle(title string) actionCardOption{
 	return newFuncActionCardOption(func(o *ActionCardModel) {
 		o.SingleTitle=title
 	})
 }
 
-func WithCardSingleURL(url string) ActionCardOption{
+func WithCardSingleURL(url string) actionCardOption{
 	return newFuncActionCardOption(func(o *ActionCardModel) {
 		o.SingleURL=url
 	})
 }
 
-func WithCardBtns(btns []ActionCardMultiBtnModel)ActionCardOption{
+func WithCardBtns(btns []ActionCardMultiBtnModel)actionCardOption{
 	return newFuncActionCardOption(func(o *ActionCardModel) {
 		o.Btns=btns
 	})
@@ -143,11 +143,11 @@ func (a actionCardMsg) Marshaler() []byte {
 	return b
 }
 
-func NewActionCardMsg(title, text string, opts ...ActionCardOption) *actionCardMsg {
+func NewActionCardMsg(title, text string, opts ...actionCardOption) *actionCardMsg {
 	card := &actionCardMsg{MsgType: ACTION_CARD, ActionCard:ActionCardModel{
 		Title:          title,
 		Text:           text,
-		BtnOrientation: HORIZONTAL,
+		BtnOrientation: horizontal,
 	}}
 	for _, opt := range opts{
 		opt.apply(&card.ActionCard)
@@ -156,16 +156,16 @@ func NewActionCardMsg(title, text string, opts ...ActionCardOption) *actionCardM
 }
 
 
-type FeedCardMsg struct {
+type feedCardMsg struct {
 	MsgType  MsgTypeType   `json:"msgtype,omitempty"`
 	FeedCard feedCardModel `json:"feedCard,omitempty"`
 }
 
-func (f FeedCardMsg) Marshaler() []byte {
+func (f feedCardMsg) Marshaler() []byte {
 	b, _ := jsoniter.Marshal(f)
 	return b
 }
 
-func NewFeedCardMsg(feedCard []FeedCardLinkModel) *FeedCardMsg {
-	return &FeedCardMsg{MsgType: FEED_CARD, FeedCard:feedCardModel{Links:feedCard}}
+func NewFeedCardMsg(feedCard []FeedCardLinkModel) *feedCardMsg {
+	return &feedCardMsg{MsgType: FEED_CARD, FeedCard:feedCardModel{Links:feedCard}}
 }

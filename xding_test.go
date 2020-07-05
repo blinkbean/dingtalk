@@ -38,7 +38,7 @@ func TestActionCardMultiMsg(t *testing.T) {
 	},
 	}
 	//err := dingTalkCli.sendMessage(NewActionCardMsg("ActionCard title", "ActionCard text.", WithCardSingleTitle("title"), WithCardSingleURL(testUrl)))
-	err := dingTalkCli.sendMessage(NewActionCardMsg("ActionCard title", "ActionCard text.", WithCardBtns(Btns), WithCardBtnOrientation(VERTICAL)))
+	err := dingTalkCli.sendMessage(NewActionCardMsg("ActionCard title", "ActionCard text.", WithCardBtns(Btns), WithCardBtnVertical()))
 	assert.Equal(t, err, nil)
 }
 

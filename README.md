@@ -6,7 +6,7 @@
 ## 使用
 1. 获取
 ```shell script
-go get github.com/hugozhu/godingtalk
+go get github.com/liyuxinger/dingtalk
 ```
 ```go
 import (

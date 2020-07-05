@@ -1,13 +1,13 @@
 package dingtalk
 
-type MsgTypeType string
+type msgTypeType string
 
 const (
-	TEXT       MsgTypeType = "text"
-	LINK       MsgTypeType = "link"
-	MARKDOWN   MsgTypeType = "markdown"
-	ACTION_CARD MsgTypeType = "actionCard"
-	FEED_CARD   MsgTypeType = "feedCard"
+	TEXT       msgTypeType = "text"
+	LINK       msgTypeType = "link"
+	MARKDOWN   msgTypeType = "markdown"
+	ACTION_CARD msgTypeType = "actionCard"
+	FEED_CARD   msgTypeType = "feedCard"
 )
 
 type textModel struct {
@@ -34,8 +34,8 @@ type markDownModel struct {
 type actionCardBtnOrientationType string
 
 const (
-	HORIZONTAL actionCardBtnOrientationType = "0" // 横向
-	VERTICAL   actionCardBtnOrientationType = "1" // 竖向
+	horizontal actionCardBtnOrientationType = "0" // 横向
+	vertical   actionCardBtnOrientationType = "1" // 竖向
 )
 
 type ActionCardModel struct {
