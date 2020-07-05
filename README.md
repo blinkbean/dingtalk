@@ -1,18 +1,28 @@
 # dingtalk
 钉钉机器人消息封装——Golang
 
-目前自定义机器人支持文本（text）、链接（link）、Markdown三种消息格式，五种消息类型，[机器人官方文档](https://ding-doc.dingtalk.com/doc#/serverapi2/qf2nxq)。
+目前自定义机器人支持
+- 文本（text）
+- 链接（link）
+- markdown
+- ActionCard
+    - 整体跳转
+    - 独立跳转
+- FeedCard
+
+[机器人官方文档](https://ding-doc.dingtalk.com/doc#/serverapi2/qf2nxq)
 
 ## 使用
-1. 获取
+### 获取
     ```shell script
     go get github.com/liyuxinger/dingtalk
     ```
-2. 初始化
+### 初始化
     ```go
-    import "github.com/hugozhu/godingtalk"
+    import "github.com/liyuxinger/dingtalk"
     
     func main() {
+        // 单个机器人有单位时间内消息条数的限制，如果有需要可以初始化多个token，发消息时随机发给其中一个机器人。
         var dingToken = []string{"7bd675b66646ba890046c2198257576470099e1bda0770bad7dd6684fb1e0415"}
         cli := dingtalk.InitDingTalk(dingToken, ".")
         cli.SendTextMessage("content")
@@ -126,7 +136,7 @@
     ```
 - ![text](./img/Xnip2020-07-05_10-29-21.jpg)
 
-#### FeedCard类型
+### FeedCard类型
 - 方法
     ```go
     // 方法定义
