@@ -50,7 +50,7 @@
     mobiles := []string{"131********"}
     cli.SendTextMessage("content", WithAtMobiles(mobiles))
     ```
-- ![text](./img/Xnip2020-07-05_10-46-59.jpg)
+- ![Xnip2020-07-05_10-46-59.jpg](https://i.loli.net/2020/07/05/LXErbH1KiRGstQ7.jpg)
 
 ### link类型
 - 方法
@@ -62,7 +62,7 @@
     ```go
     cli.SendLinkMessage(title, text, picUrl, msgUrl)
     ```
-- ![text](./img/Xnip2020-07-05_10-25-33.jpg)
+- ![Xnip2020-07-05_10-25-33.jpg](https://i.loli.net/2020/07/05/wDG1sMPlU7XZQfr.jpg)
 
 ### markdown类型
 - 方法及可选参数
@@ -82,7 +82,7 @@
     ```go
     cli.SendMarkDownMessage(title, text)
     ```
-- ![text](./img/Xnip2020-07-05_10-27-33.jpg)
+- ![Xnip2020-07-05_10-27-33.jpg](https://i.loli.net/2020/07/05/7LScefCZIGnDjBV.jpg)
 
 ### 整体跳转ActionCard类型
 - 方法及可选参数
@@ -101,7 +101,7 @@
     ```go
     cli.SendActionSingleMessage(title, text, WithCardSingleTitle(sTitle), WithCardSingleURL(url))
     ```
-- ![text](./img/Xnip2020-07-05_10-28-57.jpg)
+- ![Xnip2020-07-05_10-28-57.jpg](https://i.loli.net/2020/07/05/kKELHAlomndiO9I.jpg)
 
 ### 独立跳转ActionCard类型
 - 方法及可选参数
@@ -134,7 +134,7 @@
     }
     cli.SendActionSingleMessage(title, text, WithCardBtns(btns))
     ```
-- ![text](./img/Xnip2020-07-05_10-29-21.jpg)
+- ![Xnip2020-07-05_10-29-21.jpg](https://i.loli.net/2020/07/05/t9GywHFSQUWCVDT.jpg)
 
 ### FeedCard类型
 - 方法
@@ -170,4 +170,4 @@
     }
     cli.SendFeedCardMessage(links)
     ```
-- ![text](./img/Xnip2020-07-05_10-30-02.jpg)
+- ![Xnip2020-07-05_10-30-02.jpg](https://i.loli.net/2020/07/05/F5WDLqyJ4Yzfj6A.jpg)
