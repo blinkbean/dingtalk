@@ -75,7 +75,7 @@ func (d *dingTalk) SendActionSingleMessage(title, text string, opts ...actionCar
 	return dingTalkClient.sendMessage(NewActionCardMsg(title, text, opts...))
 }
 
-func (d *dingTalk) SendFeedCardMessage(feedCard []FeedCardLinkModel) error {
+func (d *dingTalk) SendFeedCardMessage(feedCard []feedCardLinkModel) error {
 	if len(feedCard) > 0 {
 		feedCard[0].Title = feedCard[0].Title + keyWord
 	}
