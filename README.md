@@ -15,11 +15,11 @@
 ## 使用
 ### 获取
 -   ```go
-    go get github.com/liyuxinger/dingtalk
+    go get github.com/blinkbean/dingtalk
     ```
 ### 初始化
 -   ```go
-    import "github.com/liyuxinger/dingtalk"
+    import "github.com/blinkbean/dingtalk"
     
     func main() {
         // 单个机器人有单位时间内消息条数的限制，如果有需要可以初始化多个token，发消息时随机发给其中一个机器人。
