@@ -13,11 +13,21 @@
 [机器人官方文档](https://ding-doc.dingtalk.com/doc#/serverapi2/qf2nxq)
 
 ## 使用
+### 创建钉钉群机器人
+1. 选择添加`自定义`机器人。
+2. 安全设置
+    共有关键词、加签、IP白名单三种设置，需要根据情况进行选择。
+    ![Xnip2020-07-05_15-55-24.jpg](https://i.loli.net/2020/07/05/4XqHG2dOwo8StEu.jpg)
+3. 选择`自定义关键词`，这里设置的关键词在初始化机器人的时候会用到。
 ### 获取
 -   ```go
     go get github.com/blinkbean/dingtalk
     ```
 ### 初始化
+-   ```go
+    // key 创建钉钉机器人需要设置的关键词，默认为`.`
+    func InitDingTalk(tokens []string, key string) *dingTalk
+    ```
 -   ```go
     import "github.com/blinkbean/dingtalk"
     
