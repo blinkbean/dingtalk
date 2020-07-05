@@ -7,7 +7,6 @@ import (
 	"golang.org/x/net/context/ctxhttp"
 	"net"
 	"net/http"
-	"net/url"
 	"time"
 )
 
