@@ -14,11 +14,11 @@
 
 ## 使用
 ### 获取
-    ```shell script
+-   ```go
     go get github.com/liyuxinger/dingtalk
     ```
 ### 初始化
-    ```go
+-   ```go
     import "github.com/liyuxinger/dingtalk"
     
     func main() {
