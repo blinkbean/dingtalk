@@ -127,7 +127,7 @@ func WithCardSingleURL(url string) actionCardOption{
 	})
 }
 
-func WithCardBtns(btns []actionCardMultiBtnModel)actionCardOption{
+func WithCardBtns(btns []ActionCardMultiBtnModel)actionCardOption{
 	return newFuncActionCardOption(func(o *actionCardModel) {
 		o.Btns=btns
 	})
@@ -166,6 +166,6 @@ func (f feedCardMsg) Marshaler() []byte {
 	return b
 }
 
-func NewFeedCardMsg(feedCard []feedCardLinkModel) *feedCardMsg {
+func NewFeedCardMsg(feedCard []FeedCardLinkModel) *feedCardMsg {
 	return &feedCardMsg{MsgType: FEED_CARD, FeedCard:feedCardModel{Links:feedCard}}
 }

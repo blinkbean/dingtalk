@@ -70,12 +70,12 @@ func (d *dingTalk) SendLinkMessage(title, text, picUrl, msgUrl string) error {
 	return dingTalkClient.sendMessage(NewLinkMsg(title, text, picUrl, msgUrl))
 }
 
-func (d *dingTalk) SendActionSingleMessage(title, text string, opts ...actionCardOption) error {
+func (d *dingTalk) SendActionCardMessage(title, text string, opts ...actionCardOption) error {
 	title = title + keyWord
 	return dingTalkClient.sendMessage(NewActionCardMsg(title, text, opts...))
 }
 
-func (d *dingTalk) SendFeedCardMessage(feedCard []feedCardLinkModel) error {
+func (d *dingTalk) SendFeedCardMessage(feedCard []FeedCardLinkModel) error {
 	if len(feedCard) > 0 {
 		feedCard[0].Title = feedCard[0].Title + keyWord
 	}

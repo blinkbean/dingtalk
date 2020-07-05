@@ -3,9 +3,9 @@ package dingtalk
 type msgTypeType string
 
 const (
-	TEXT       msgTypeType = "text"
-	LINK       msgTypeType = "link"
-	MARKDOWN   msgTypeType = "markdown"
+	TEXT        msgTypeType = "text"
+	LINK        msgTypeType = "link"
+	MARKDOWN    msgTypeType = "markdown"
 	ACTION_CARD msgTypeType = "actionCard"
 	FEED_CARD   msgTypeType = "feedCard"
 )
@@ -44,19 +44,19 @@ type actionCardModel struct {
 	BtnOrientation actionCardBtnOrientationType `json:"btnOrientation,omitempty"`
 	SingleTitle    string                       `json:"singleTitle,omitempty"`
 	SingleURL      string                       `json:"singleURL,omitempty"`
-	Btns           []actionCardMultiBtnModel    `json:"btns,omitempty"`
+	Btns           []ActionCardMultiBtnModel    `json:"btns,omitempty"`
 }
 
-type actionCardMultiBtnModel struct {
+type ActionCardMultiBtnModel struct {
 	Title     string `json:"title,omitempty"`
 	ActionURL string `json:"actionURL,omitempty"`
 }
 
 type feedCardModel struct {
-	Links []feedCardLinkModel `json:"links,omitempty"`
+	Links []FeedCardLinkModel `json:"links,omitempty"`
 }
 
-type feedCardLinkModel struct {
+type FeedCardLinkModel struct {
 	Title      string `json:"title,omitempty"`
 	MessageURL string `json:"messageURL,omitempty"`
 	PicURL     string `json:"picURL,omitempty"`

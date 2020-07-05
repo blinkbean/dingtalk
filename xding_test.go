@@ -11,20 +11,23 @@ var dingTalkCli = InitDingTalk(dingToken, ".")
 
 var testImg = "https://golang.google.cn/lib/godoc/images/footer-gopher.jpg"
 var testUrl = "https://golang.google.cn/"
-var testPhone = "13182825966"
+var testPhone = "1318282596*"
 
+func init() {
+	dingTalkCli = InitDingTalk(dingToken, ".")
+}
 func TestTextMsg(t *testing.T) {
-	err := dingTalkCli.sendMessage(NewTextMsg("Text 测试.", WithAtMobiles([]string{testPhone})))
+	err := dingTalkCli.SendTextMessage("Text 测试.", WithAtMobiles([]string{testPhone}))
 	assert.Equal(t, err, nil)
 }
 
 func TestLinkMsg(t *testing.T) {
-	err := dingTalkCli.sendMessage(NewLinkMsg("Link title", "Link test.", testImg, testUrl))
+	err := dingTalkCli.SendLinkMessage("Link title", "Link test.", testImg, testUrl)
 	assert.Equal(t, err, nil)
 }
 
 func TestMarkDownMsg(t *testing.T) {
-	err := dingTalkCli.sendMessage(NewMarkDownMsg("Markdown title", "### Link test\n - content1 \n - content2.", WithAtAll()))
+	err := dingTalkCli.SendMarkDownMessage("Markdown title", "### Link test\n - content1 \n - content2.", WithAtAll())
 	assert.Equal(t, err, nil)
 }
 
@@ -37,8 +40,8 @@ func TestActionCardMultiMsg(t *testing.T) {
 		ActionURL: testUrl,
 	},
 	}
-	//err := dingTalkCli.sendMessage(NewActionCardMsg("ActionCard title", "ActionCard text.", WithCardSingleTitle("title"), WithCardSingleURL(testUrl)))
-	err := dingTalkCli.sendMessage(NewActionCardMsg("ActionCard title", "ActionCard text.", WithCardBtns(Btns), WithCardBtnVertical()))
+	//err := dingTalkCli.SendActionCardMessage("ActionCard title", "ActionCard text.", WithCardSingleTitle("title"), WithCardSingleURL(testUrl))
+	err := dingTalkCli.SendActionCardMessage("ActionCard title", "ActionCard text.", WithCardBtns(Btns), WithCardBtnVertical())
 	assert.Equal(t, err, nil)
 }
 
@@ -60,6 +63,6 @@ func TestFeedCardMsg(t *testing.T) {
 			PicURL:     testImg,
 		},
 	}
-	err := dingTalkCli.sendMessage(NewFeedCardMsg(links))
+	err := dingTalkCli.SendFeedCardMessage(links)
 	assert.Equal(t, err, nil)
 }
