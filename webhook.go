@@ -9,27 +9,25 @@ import (
 	"time"
 )
 
-type dingTalk struct {
+type DingTalk struct {
 	robotToken []string
 }
 
 var keyWord = "."
-var dingTalkClient = dingTalk{}
 
-func InitDingTalk(tokens []string, key string) *dingTalk {
+func InitDingTalk(tokens []string, key string) *DingTalk {
 	if len(tokens) == 0 {
 		panic("no token")
 	}
 	if keyWord != "" {
 		keyWord = key
 	}
-	dingTalkClient = dingTalk{
+	return &DingTalk{
 		robotToken: tokens,
 	}
-	return &dingTalkClient
 }
 
-func (d *dingTalk) sendMessage(msg iDingMsg) error {
+func (d *DingTalk) sendMessage(msg iDingMsg) error {
 	var (
 		ctx    context.Context
 		cancel context.CancelFunc
@@ -55,29 +53,29 @@ func (d *dingTalk) sendMessage(msg iDingMsg) error {
 	return nil
 }
 
-func (d *dingTalk) SendTextMessage(content string, opt ...atOption) error {
+func (d *DingTalk) SendTextMessage(content string, opt ...atOption) error {
 	content = content + keyWord
-	return dingTalkClient.sendMessage(NewTextMsg(content, opt...))
+	return d.sendMessage(NewTextMsg(content, opt...))
 }
 
-func (d *dingTalk) SendMarkDownMessage(title, text string, opts ...atOption) error {
+func (d *DingTalk) SendMarkDownMessage(title, text string, opts ...atOption) error {
 	title = title + keyWord
-	return dingTalkClient.sendMessage(NewMarkDownMsg(title, text, opts...))
+	return d.sendMessage(NewMarkDownMsg(title, text, opts...))
 }
 
-func (d *dingTalk) SendLinkMessage(title, text, picUrl, msgUrl string) error {
+func (d *DingTalk) SendLinkMessage(title, text, picUrl, msgUrl string) error {
 	title = title + keyWord
-	return dingTalkClient.sendMessage(NewLinkMsg(title, text, picUrl, msgUrl))
+	return d.sendMessage(NewLinkMsg(title, text, picUrl, msgUrl))
 }
 
-func (d *dingTalk) SendActionCardMessage(title, text string, opts ...actionCardOption) error {
+func (d *DingTalk) SendActionCardMessage(title, text string, opts ...actionCardOption) error {
 	title = title + keyWord
-	return dingTalkClient.sendMessage(NewActionCardMsg(title, text, opts...))
+	return d.sendMessage(NewActionCardMsg(title, text, opts...))
 }
 
-func (d *dingTalk) SendFeedCardMessage(feedCard []FeedCardLinkModel) error {
+func (d *DingTalk) SendFeedCardMessage(feedCard []FeedCardLinkModel) error {
 	if len(feedCard) > 0 {
 		feedCard[0].Title = feedCard[0].Title + keyWord
 	}
-	return dingTalkClient.sendMessage(NewFeedCardMsg(feedCard))
+	return d.sendMessage(NewFeedCardMsg(feedCard))
 }

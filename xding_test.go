@@ -27,7 +27,7 @@ func TestLinkMsg(t *testing.T) {
 }
 
 func TestMarkDownMsg(t *testing.T) {
-	err := dingTalkCli.SendMarkDownMessage("Markdown title", "### Link test\n - content1 \n - content2.", WithAtAll())
+	err := dingTalkCli.SendMarkDownMessage("Markdown title", "### Link test\n --- \n- <font color=#00ff00 size=6>红色文字</font> \n - content2.", WithAtAll())
 	assert.Equal(t, err, nil)
 }
 
@@ -41,7 +41,7 @@ func TestActionCardMultiMsg(t *testing.T) {
 	},
 	}
 	//err := dingTalkCli.SendActionCardMessage("ActionCard title", "ActionCard text.", WithCardSingleTitle("title"), WithCardSingleURL(testUrl))
-	err := dingTalkCli.SendActionCardMessage("ActionCard title", "ActionCard text.", WithCardBtns(Btns), WithCardBtnVertical())
+	err := dingTalkCli.SendActionCardMessage("ActionCard title", "- ActionCard text.", WithCardBtns(Btns), WithCardBtnVertical())
 	assert.Equal(t, err, nil)
 }
 

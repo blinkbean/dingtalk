@@ -181,3 +181,31 @@
     cli.SendFeedCardMessage(links)
     ```
 - ![Xnip2020-07-05_10-30-02.jpg](https://i.loli.net/2020/07/05/F5WDLqyJ4Yzfj6A.jpg)
+
+### OutGoing
+- 消息格式
+    ```json
+    {
+        "atUsers":[
+            {
+                "dingtalkId":"$:LWCP_v1:$1h0bmSzcLCHncx0lCt3Bb/UVz7xv/8vhs"
+            }],
+        "chatbotUserId":"$:LWCP_v1:$1h0bmSzcLCHncx0lCt3Bb/UVz7x/8vhd",
+        "conversationId":"cidkkCwvtlh1L0RmFuhmashid==",
+        "conversationTitle":"项目群",
+        "conversationType":"2",
+        "createAt":1595232438958,
+        "isAdmin":false,
+        "isInAtList":true,
+        "msgId":"msgm/bJkKjTupFM7ZoRF/eKRA==",
+        "msgtype":"text",
+        "sceneGroupCode":"project",
+        "senderId":"$:LWCP_v1:$x4wFOct/DGctv96o4IxxBB==",
+        "senderNick":"blinkbean",
+        "sessionWebhook":"https://oapi.dingtalk.com/robot/sendBySession?session=6d69b333f243db32d42c11sda9de6200",
+        "sessionWebhookExpiredTime":1595237839032,
+        "text":{
+            "content":" outgoing"
+        }
+    }
+    ```
