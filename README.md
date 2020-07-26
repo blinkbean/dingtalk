@@ -209,3 +209,16 @@
         }
     }
     ```
+  
+- Usage
+    ```go
+    func OutGoing(ctx *gin.Context){
+        msg, err := cli.OutGoing(ctx.Request.Body)
+        // 处理content
+        res := doSomeThing(msg.Text.Content)
+        textMsg := dingtalk.NewTextMsg(res)
+        ctx.Set("respData", textMsg)
+        ctx.JSON(ctx.Writer.Status(), data)
+        return 
+    }
+    ```

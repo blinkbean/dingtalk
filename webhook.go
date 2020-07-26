@@ -2,7 +2,9 @@ package dingtalk
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"math/rand"
 	"net/http"
@@ -51,6 +53,15 @@ func (d *DingTalk) sendMessage(msg iDingMsg) error {
 		return fmt.Errorf("send msg err: %s, token: %s, msg: %s", string(body), d.robotToken, msg.Marshaler())
 	}
 	return nil
+}
+
+func (d *DingTalk) OutGoing(r io.Reader) (outGoing OutGoingModel, err error) {
+	buf, err := ioutil.ReadAll(r)
+	if err != nil {
+		return
+	}
+	err = json.Unmarshal(buf, &outGoing)
+	return
 }
 
 func (d *DingTalk) SendTextMessage(content string, opt ...atOption) error {
