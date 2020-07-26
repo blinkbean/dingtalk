@@ -135,7 +135,6 @@
     cli.SendActionSingleMessage(title, text, WithCardSingleTitle(sTitle), WithCardSingleURL(url))
     ```
 - ![Xnip2020-07-05_10-28-57.jpg](https://i.loli.net/2020/07/05/kKELHAlomndiO9I.jpg)
-- ![Xnip2020-07-26_17-14-56.jpg](https://i.loli.net/2020/07/26/pEg7hotXZnsaJPV.jpg)
 
 ### 独立跳转ActionCard类型
 - 方法及可选参数
@@ -169,6 +168,7 @@
     cli.SendActionSingleMessage(title, text, WithCardBtns(btns))
     ```
 - ![Xnip2020-07-05_10-29-21.jpg](https://i.loli.net/2020/07/05/t9GywHFSQUWCVDT.jpg)
+- ![Xnip2020-07-26_17-14-56.jpg](https://i.loli.net/2020/07/26/pEg7hotXZnsaJPV.jpg)
 
 ### FeedCard类型
 - 方法
