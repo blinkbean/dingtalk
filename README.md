@@ -92,7 +92,30 @@
     ```go
     cli.SendMarkDownMessage(title, text)
     ```
+- Markdown进阶
+    ```go
+    // 按行写入数组，增强markdown的可读性
+    msg := []string{
+        "### Link test",
+        "---",
+        "- <font color=#00ff00 size=6>红色文字</font>",
+        "- content2",
+    }
+    cli.SendMarkDownMessageBySlice("Markdown title", msg, WithAtAll())
+  
+    // 字体及颜色
+    dm := DingMap()
+    dm.Set("颜色测试", H2)
+    dm.Set("失败：$$ 同行不同色 $$", RED)  // 双$分隔
+    dm.Set("---", N)
+    dm.Set("金色", GOLD)
+    dm.Set("成功", GREEN)
+    dm.Set("警告", BLUE)
+    dm.Set("普通文字", N)
+    cli.SendMarkDownMessageBySlice("color test", dm.Slice())
+    ```
 - ![Xnip2020-07-05_10-27-33.jpg](https://i.loli.net/2020/07/05/7LScefCZIGnDjBV.jpg)
+- ![Xnip2020-07-26_17-14-40.jpg](https://i.loli.net/2020/07/26/PADJ5uqmfQht2cr.jpg)
 
 ### 整体跳转ActionCard类型
 - 方法及可选参数
@@ -112,6 +135,7 @@
     cli.SendActionSingleMessage(title, text, WithCardSingleTitle(sTitle), WithCardSingleURL(url))
     ```
 - ![Xnip2020-07-05_10-28-57.jpg](https://i.loli.net/2020/07/05/kKELHAlomndiO9I.jpg)
+- ![Xnip2020-07-26_17-14-56.jpg](https://i.loli.net/2020/07/26/pEg7hotXZnsaJPV.jpg)
 
 ### 独立跳转ActionCard类型
 - 方法及可选参数
@@ -213,9 +237,11 @@
 - Usage
     ```go
     func OutGoing(ctx *gin.Context){
-        msg, err := cli.OutGoing(ctx.Request.Body)
+        cli := dingtalk.InitDingTalk([]string{"***"}, ".")
+        msg, _ := cli.OutGoing(ctx.Request.Body)
         // 处理content
         res := doSomeThing(msg.Text.Content)
+  
         textMsg := dingtalk.NewTextMsg(res)
         ctx.Set("respData", textMsg)
         ctx.JSON(ctx.Writer.Status(), data)

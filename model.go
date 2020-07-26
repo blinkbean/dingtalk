@@ -1,6 +1,10 @@
 package dingtalk
 
-import jsoniter "github.com/json-iterator/go"
+import (
+	"fmt"
+	jsoniter "github.com/json-iterator/go"
+	"strings"
+)
 
 type iDingMsg interface {
 	Marshaler() []byte
@@ -168,4 +172,61 @@ func (f feedCardMsg) Marshaler() []byte {
 
 func NewFeedCardMsg(feedCard []FeedCardLinkModel) *feedCardMsg {
 	return &feedCardMsg{MsgType: FEED_CARD, FeedCard:feedCardModel{Links:feedCard}}
+}
+
+type MarkType string
+
+// 有序map
+type dingMap struct {
+	m map[string]MarkType
+	l []string
+}
+
+func DingMap() *dingMap {
+	return &dingMap{m: make(map[string]MarkType), l: make([]string,0,0)}
+}
+
+func (d *dingMap) Set(val string, t MarkType) {
+	d.l = append(d.l, val)
+	d.m[val] = t
+}
+
+func (d *dingMap) Remove(val string) {
+	if _, ok := d.m[val]; ok {
+		for i, v := range d.l {
+			if v == val {
+				d.l = append(d.l[:i], d.l[i+1:]...)
+				break
+			}
+		}
+		delete(d.m, val)
+	}
+}
+
+func (d *dingMap) Slice() []string {
+	resList := make([]string, 0, len(d.l))
+	for _, val := range d.l {
+		content := d.formatVal(val, d.m[val])
+		resList = append(resList, content)
+	}
+	return resList
+}
+
+func (d *dingMap) formatVal(val string, t MarkType) (res string) {
+	var ok bool
+	if res, ok = hMap[t]; ok {
+		vl := strings.Split(val, formatSpliter)
+		if len(vl) == 3 {
+			res = fmt.Sprintf(res, vl[1])
+			res = vl[0] + res + vl[2]
+		} else {
+			res = fmt.Sprintf(res, val)
+		}
+	} else {
+		res = val
+	}
+	if !strings.HasPrefix(res, "- ") && !strings.HasPrefix(res, "#") {
+		res = "- " + res
+	}
+	return
 }

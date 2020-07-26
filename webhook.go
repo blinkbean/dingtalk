@@ -55,7 +55,7 @@ func (d *DingTalk) sendMessage(msg iDingMsg) error {
 	return nil
 }
 
-func (d *DingTalk) OutGoing(r io.Reader) (outGoing OutGoingModel, err error) {
+func (d *DingTalk) OutGoing(r io.Reader) (outGoing outGoingModel, err error) {
 	buf, err := ioutil.ReadAll(r)
 	if err != nil {
 		return
@@ -74,6 +74,15 @@ func (d *DingTalk) SendMarkDownMessage(title, text string, opts ...atOption) err
 	return d.sendMessage(NewMarkDownMsg(title, text, opts...))
 }
 
+func (d DingTalk) SendMarkDownMessageBySlice(title string, textList []string, opts ...atOption) error {
+	title = title + keyWord
+	text := ""
+	for _, t := range textList {
+		text = text + "\n" + t
+	}
+	return d.sendMessage(NewMarkDownMsg(title, text, opts...))
+}
+
 func (d *DingTalk) SendLinkMessage(title, text, picUrl, msgUrl string) error {
 	title = title + keyWord
 	return d.sendMessage(NewLinkMsg(title, text, picUrl, msgUrl))
@@ -81,6 +90,15 @@ func (d *DingTalk) SendLinkMessage(title, text, picUrl, msgUrl string) error {
 
 func (d *DingTalk) SendActionCardMessage(title, text string, opts ...actionCardOption) error {
 	title = title + keyWord
+	return d.sendMessage(NewActionCardMsg(title, text, opts...))
+}
+
+func (d *DingTalk) SendActionCardMessageBySlice(title string, textList []string, opts ...actionCardOption) error {
+	title = title + keyWord
+	text := ""
+	for _, t := range textList {
+		text = text + "\n" + t
+	}
 	return d.sendMessage(NewActionCardMsg(title, text, opts...))
 }
 

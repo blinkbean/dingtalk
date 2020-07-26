@@ -31,6 +31,17 @@ func TestMarkDownMsg(t *testing.T) {
 	assert.Equal(t, err, nil)
 }
 
+func TestSendMarkDownMessageByList(t *testing.T) {
+	msg := []string{
+		"### Link test",
+		"---",
+		"- <font color=#00ff00 size=6>红色文字</font>",
+		"- content2",
+	}
+	err := dingTalkCli.SendMarkDownMessageBySlice("Markdown title", msg, WithAtAll())
+	assert.Equal(t, err, nil)
+}
+
 func TestActionCardMultiMsg(t *testing.T) {
 	Btns := []ActionCardMultiBtnModel{{
 		Title:     "test1",
@@ -42,6 +53,28 @@ func TestActionCardMultiMsg(t *testing.T) {
 	}
 	//err := dingTalkCli.SendActionCardMessage("ActionCard title", "ActionCard text.", WithCardSingleTitle("title"), WithCardSingleURL(testUrl))
 	err := dingTalkCli.SendActionCardMessage("ActionCard title", "- ActionCard text.", WithCardBtns(Btns), WithCardBtnVertical())
+	assert.Equal(t, err, nil)
+}
+
+func TestActionCardMultiMsgBySlice(t *testing.T) {
+	Btns := []ActionCardMultiBtnModel{{
+		Title:     "test1",
+		ActionURL: testUrl,
+	}, {
+		Title:     "test2",
+		ActionURL: testUrl,
+	},
+	}
+	dm := DingMap()
+	dm.Set("颜色测试", H2)
+	dm.Set("失败：$$ 同行不同色 $$", RED)
+	dm.Set("---", "")
+	dm.Set("金色", GOLD)
+	dm.Set("成功", GREEN)
+	dm.Set("警告", BLUE)
+	dm.Set("普通文字", N)
+	//err := dingTalkCli.SendActionCardMessage("ActionCard title", "ActionCard text.", WithCardSingleTitle("title"), WithCardSingleURL(testUrl))
+	err := dingTalkCli.SendActionCardMessageBySlice("ActionCard title", dm.Slice(), WithCardBtns(Btns), WithCardBtnVertical())
 	assert.Equal(t, err, nil)
 }
 
@@ -65,4 +98,16 @@ func TestFeedCardMsg(t *testing.T) {
 	}
 	err := dingTalkCli.SendFeedCardMessage(links)
 	assert.Equal(t, err, nil)
+}
+
+func TestDingMap(t *testing.T) {
+	dm := DingMap()
+	dm.Set("颜色测试", H2)
+	dm.Set("失败：$$ 同行不同色 $$", RED)
+	dm.Set("---", "")
+	dm.Set("金色", GOLD)
+	dm.Set("成功", GREEN)
+	dm.Set("警告", BLUE)
+	dm.Set("普通文字", N)
+	dingTalkCli.SendMarkDownMessageBySlice("color test", dm.Slice())
 }
