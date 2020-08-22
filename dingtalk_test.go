@@ -35,10 +35,11 @@ func TestSendMarkDownMessageByList(t *testing.T) {
 	msg := []string{
 		"### Link test",
 		"---",
-		"- <font color=#00ff00 size=6>红色文字</font>",
+		"- <font color=#00ff00 size=2>红色文字</font>",
 		"- content2",
 	}
-	err := dingTalkCli.SendMarkDownMessageBySlice("Markdown title", msg, WithAtAll())
+	//err := dingTalkCli.SendMarkDownMessageBySlice("Markdown title", msg)
+	err := dingTalkCli.SendMarkDownMessageBySlice("Markdown title", msg, WithAtMobiles([]string{"13182825969","15732534572"}))
 	assert.Equal(t, err, nil)
 }
 

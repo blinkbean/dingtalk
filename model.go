@@ -93,6 +93,14 @@ func NewMarkDownMsg(title string, text interface{}, opts ...atOption) *markDownM
 	for _,opt := range opts{
 		opt.apply(&msg.At)
 	}
+	// markdown格式需要在文本内写入被at的人
+	if len(msg.At.AtMobiles) > 0 {
+		var atStr = "\n -"
+		for _, mobile := range msg.At.AtMobiles {
+			atStr = atStr + " @" + mobile
+		}
+		msg.Markdown.Text = msg.Markdown.Text + atStr
+	}
 	return msg
 }
 
