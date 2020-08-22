@@ -39,7 +39,7 @@ func TestSendMarkDownMessageByList(t *testing.T) {
 		"- content2",
 	}
 	//err := dingTalkCli.SendMarkDownMessageBySlice("Markdown title", msg)
-	err := dingTalkCli.SendMarkDownMessageBySlice("Markdown title", msg, WithAtMobiles([]string{"13182825969","15732534572"}))
+	err := dingTalkCli.SendMarkDownMessageBySlice("Markdown title", msg, WithAtMobiles([]string{testPhone}))
 	assert.Equal(t, err, nil)
 }
 
