@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-var dingToken = []string{"7bd675b66646ba890046c2198257576470099e1bda0770bad7dd6684fb1e0415"}
+var dingToken = []string{"b9230b8c762cb3a6f5dd977ad975c687e23fdefc6c762fe94a0f36bca73fb654"}
 
 var dingTalkCli = InitDingTalk(dingToken, ".")
 
@@ -110,5 +110,6 @@ func TestDingMap(t *testing.T) {
 	dm.Set("成功", GREEN)
 	dm.Set("警告", BLUE)
 	dm.Set("普通文字", N)
-	dingTalkCli.SendMarkDownMessageBySlice("color test", dm.Slice())
+	err := dingTalkCli.SendMarkDownMessageBySlice("color test", dm.Slice())
+	assert.Equal(t, err, nil)
 }

@@ -55,12 +55,12 @@ func (d *DingTalk) sendMessage(msg iDingMsg) error {
 	return nil
 }
 
-func (d *DingTalk) OutGoing(r io.Reader) (outGoing outGoingModel, err error) {
+func (d *DingTalk) OutGoing(r io.Reader) (outGoingMsg OutGoingModel, err error) {
 	buf, err := ioutil.ReadAll(r)
 	if err != nil {
 		return
 	}
-	err = json.Unmarshal(buf, &outGoing)
+	err = json.Unmarshal(buf, &outGoingMsg)
 	return
 }
 

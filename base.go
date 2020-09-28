@@ -62,7 +62,7 @@ type FeedCardLinkModel struct {
 	PicURL     string `json:"picURL,omitempty"`
 }
 
-type outGoingModel struct {
+type OutGoingModel struct {
 	AtUsers []struct {
 		DingtalkID string `json:"dingtalkId"`
 	} `json:"atUsers"`
