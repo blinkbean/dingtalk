@@ -12,6 +12,8 @@
 
 [机器人官方文档](https://ding-doc.dingtalk.com/doc#/serverapi2/qf2nxq)
 
+- 添加钉钉群：**35451012**，执行dingtalk_test.go测试方法可直接查看以下消息内容。
+
 ## 使用
 ### 创建钉钉群机器人
 1. 选择添加`自定义`机器人。
