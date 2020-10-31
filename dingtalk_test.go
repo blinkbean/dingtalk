@@ -4,8 +4,9 @@ import (
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
-
-var dingToken = []string{"b9230b8c762cb3a6f5dd977ad975c687e23fdefc6c762fe94a0f36bca73fb654"}
+//https://oapi.dingtalk.com/robot/send?access_token=0471c091acf1d9dfc553e57525f57139859858b905836b8f45b228e6d6e3a289
+//var dingToken = []string{"b9230b8c762cb3a6f5dd977ad975c687e23fdefc6c762fe94a0f36bca73fb654"}
+var dingToken = []string{"0471c091acf1d9dfc553e57525f57139859858b905836b8f45b228e6d6e3a289"}
 
 var dingTalkCli = InitDingTalk(dingToken, ".")
 
@@ -28,6 +29,16 @@ func TestLinkMsg(t *testing.T) {
 
 func TestMarkDownMsg(t *testing.T) {
 	err := dingTalkCli.SendMarkDownMessage("Markdown title", "### Link test\n --- \n- <font color=#00ff00 size=6>红色文字</font> \n - content2.", WithAtAll())
+	assert.Equal(t, err, nil)
+}
+
+func TestSendDTMDMessage(t *testing.T) {
+	dtmdMap := map[string]string{
+		"dtmdLink1": "dtmdValue1",
+		"dtmdLink2": "dtmdValue2",
+		"dtmdLink3": "dtmdValue3",
+	}
+	err := dingTalkCli.SendDTMDMessage("DTMD title", dtmdMap)
 	assert.Equal(t, err, nil)
 }
 
