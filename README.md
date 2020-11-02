@@ -119,6 +119,17 @@
 - ![Xnip2020-07-05_10-27-33.jpg](https://i.loli.net/2020/07/05/7LScefCZIGnDjBV.jpg)
 - ![Xnip2020-07-26_17-14-40.jpg](https://i.loli.net/2020/07/26/PADJ5uqmfQht2cr.jpg)
 
+- 点击链接发送消息,同时@机器人
+    ```go
+    dtmdMap := map[string]string{
+  		"dtmdLink1": "dtmdValue1",
+  		"dtmdLink2": "dtmdValue2",
+  		"dtmdLink3": "dtmdValue3",
+  	}
+  	cli.SendDTMDMessage("DTMD title", dtmdMap)
+    ```
+- ![Xnip2020-11-02_17-17-26.jpg](https://i.loli.net/2020/11/02/1OqEr4HKZWapRgd.jpg)
+
 ### 整体跳转ActionCard类型
 - 方法及可选参数
     ```go
