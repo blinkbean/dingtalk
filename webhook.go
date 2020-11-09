@@ -78,11 +78,7 @@ func (d *DingTalk) SendMarkDownMessage(title, text string, opts ...atOption) err
 // todo map无序
 func (d *DingTalk) SendDTMDMessage(title string, dtmdMap map[string]string, opt ...atOption) error {
 	title = title + keyWord
-	text := ""
-	for k, v := range dtmdMap {
-		text = text + "\n - " + fmt.Sprintf(dtmdFormat, k, v)
-	}
-	return d.sendMessage(NewMarkDownMsg(title, text, opt...))
+	return d.sendMessage(NewDTMDMsg(title, dtmdMap, opt...))
 }
 
 func (d DingTalk) SendMarkDownMessageBySlice(title string, textList []string, opts ...atOption) error {

@@ -87,6 +87,14 @@ func (m markDownMsg) Marshaler() []byte {
 	return b
 }
 
+func NewDTMDMsg(title string, dtmdMap map[string]string, opts ...atOption) *markDownMsg {
+	text := ""
+	for k, v := range dtmdMap {
+		text = text + "\n - " + fmt.Sprintf(dtmdFormat, k, v)
+	}
+	return NewMarkDownMsg(title, text, opts...)
+}
+
 func NewMarkDownMsg(title string, text interface{}, opts ...atOption) *markDownMsg {
 
 	msg := &markDownMsg{MsgType: MARKDOWN, Markdown:markDownModel{Title:title, Text:text.(string)}}
