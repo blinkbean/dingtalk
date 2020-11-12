@@ -123,12 +123,12 @@
 
     点击'dtmdLink1'，自动发送'dtmdValue1'并@机器人，简化输入
     ```go
-    dtmdMap := map[string]string{
-  		"dtmdLink1": "dtmdValue1",
-  		"dtmdLink2": "dtmdValue2",
-  		"dtmdLink3": "dtmdValue3",
-  	}
-  	cli.SendDTMDMessage("DTMD title", dtmdMap)
+    // 创建有序map
+    dtmdOrderMap := DingMap().
+        Set("dtmdOrderMap1", "dtmdValue1").
+        Set("dtmdOrderMap2", "dtmdValue2").
+        Set("dtmdOrderMap3", "dtmdValue3")
+    err := dingTalkCli.SendDTMDMessage("DTMD title", dtmdOrderMap)
     ```
 - ![Xnip2020-11-02_17-17-26.jpg](https://i.loli.net/2020/11/02/1OqEr4HKZWapRgd.jpg)
 

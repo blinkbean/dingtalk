@@ -87,10 +87,10 @@ func (m markDownMsg) Marshaler() []byte {
 	return b
 }
 
-func NewDTMDMsg(title string, dtmdMap map[string]string, opts ...atOption) *markDownMsg {
+func NewDTMDMsg(title string, dtmdMap *dingMap, opts ...atOption) *markDownMsg {
 	text := ""
-	for k, v := range dtmdMap {
-		text = text + "\n - " + fmt.Sprintf(dtmdFormat, k, v)
+	for _, v := range dtmdMap.l {
+		text = text + "\n - " + fmt.Sprintf(dtmdFormat, v, dtmdMap.m[v])
 	}
 	return NewMarkDownMsg(title, text, opts...)
 }
@@ -202,9 +202,10 @@ func DingMap() *dingMap {
 	return &dingMap{m: make(map[string]MarkType), l: make([]string,0,0)}
 }
 
-func (d *dingMap) Set(val string, t MarkType) {
+func (d *dingMap) Set(val string, t MarkType) *dingMap {
 	d.l = append(d.l, val)
 	d.m[val] = t
+	return d
 }
 
 func (d *dingMap) Remove(val string) {

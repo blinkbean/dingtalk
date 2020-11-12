@@ -4,9 +4,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
-//https://oapi.dingtalk.com/robot/send?access_token=0471c091acf1d9dfc553e57525f57139859858b905836b8f45b228e6d6e3a289
-//var dingToken = []string{"b9230b8c762cb3a6f5dd977ad975c687e23fdefc6c762fe94a0f36bca73fb654"}
-var dingToken = []string{"0471c091acf1d9dfc553e57525f57139859858b905836b8f45b228e6d6e3a289"}
+var dingToken = []string{"b9230b8c762cb3a6f5dd977ad975c687e23fdefc6c762fe94a0f36bca73fb654"}
+//var dingToken = []string{"0471c091acf1d9dfc553e57525f57139859858b905836b8f45b228e6d6e3a289"} // onlyOne
 
 var dingTalkCli = InitDingTalk(dingToken, ".")
 
@@ -33,12 +32,12 @@ func TestMarkDownMsg(t *testing.T) {
 }
 
 func TestSendDTMDMessage(t *testing.T) {
-	dtmdMap := map[string]string{
-		"dtmdLink1": "dtmdValue1",
-		"dtmdLink2": "dtmdValue2",
-		"dtmdLink3": "dtmdValue3",
-	}
-	err := dingTalkCli.SendDTMDMessage("DTMD title", dtmdMap)
+	// 有序map
+	dtmdOrderMap := DingMap().
+		Set("dtmdOrderMap1", "dtmdValue1").
+		Set("dtmdOrderMap2", "dtmdValue2").
+		Set("dtmdOrderMap3", "dtmdValue3")
+	err := dingTalkCli.SendDTMDMessage("DTMD title", dtmdOrderMap)
 	assert.Equal(t, err, nil)
 }
 
