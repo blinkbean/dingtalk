@@ -8,6 +8,7 @@ var dingToken = []string{"b9230b8c762cb3a6f5dd977ad975c687e23fdefc6c762fe94a0f36
 //var dingToken = []string{"0471c091acf1d9dfc553e57525f57139859858b905836b8f45b228e6d6e3a289"} // onlyOne
 
 var dingTalkCli = InitDingTalk(dingToken, ".")
+var dingTalkCliWithSecret = InitDingTalkWithSecret("47f656c278ff59b59e39486f98e5e7e1d1a3ef0bca22f9c01b37a90b81fe91aa", "SEC0fdc400a2b7e2f70f0b4d787a8f0623fe9742225bee747b4d5852162d24a63ed") // 加签
 
 var testImg = "https://golang.google.cn/lib/godoc/images/footer-gopher.jpg"
 var testUrl = "https://golang.google.cn/"
@@ -16,8 +17,14 @@ var testPhone = "1318282596*"
 func init() {
 	dingTalkCli = InitDingTalk(dingToken, ".")
 }
+
+func TestTextMsgWithSecret(t *testing.T) {
+	err := dingTalkCliWithSecret.SendTextMessage("加签测试", WithAtMobiles([]string{testPhone}))
+	assert.Equal(t, err, nil)
+}
+
 func TestTextMsg(t *testing.T) {
-	err := dingTalkCli.SendTextMessage("Text 测试.", WithAtMobiles([]string{testPhone}))
+	err := dingTalkCli.SendTextMessage("Text 测试", WithAtMobiles([]string{testPhone}))
 	assert.Equal(t, err, nil)
 }
 
