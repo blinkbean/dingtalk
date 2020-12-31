@@ -29,6 +29,10 @@
 -   ```go
     // key 创建钉钉机器人需要设置的关键词，默认为`.`
     func InitDingTalk(tokens []string, key string) *dingTalk
+    
+    // 加签方式创建钉钉机器人
+    // 加签机器人 access_token和secret一一对应，在创建机器人是获取
+    func InitDingTalkWithSecret(tokens string, secret string) *DingTalk
     ```
 -   ```go
     import "github.com/blinkbean/dingtalk"
