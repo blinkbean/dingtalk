@@ -123,7 +123,7 @@
 - ![Xnip2020-07-05_10-27-33.jpg](https://i.loli.net/2020/07/05/7LScefCZIGnDjBV.jpg)
 - ![Xnip2020-07-26_17-14-40.jpg](https://i.loli.net/2020/07/26/PADJ5uqmfQht2cr.jpg)
 
-- 点击链接发送消息
+- 点击DTMD链接发送消息
 
     点击'dtmdLink1'，自动发送'dtmdValue1'并@机器人，简化输入
     ```go
