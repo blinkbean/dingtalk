@@ -52,9 +52,9 @@
 
 - 配置步骤
  1. 创建钉钉群机器人时选中 `是否开启Outgoing机制`。
- 2. 配置POST地址（接口地址，如：http://robot.blinkbean.com/outgoing），必须是外网是可访问接口。
- 2. 当前未做Token相关逻辑，填写内容不影响测试和使用。
-
+ 2. 配置POST地址，外网是可访问的接口地址，如：`http://robot.blinkbean.com/outgoing` 。
+ 3. 当前未做Token相关逻辑，填写内容不影响测试和使用。
+ ![OutGoing.jpg](https://i.loli.net/2021/09/05/XgHph96ZFv3NdST.jpg)
 - 钉钉发送的消息格式
     ```json
     {
@@ -104,9 +104,9 @@
     ```go
     // 自定义方法
     outgoingFunc := func(args []string) []byte {
-    		// do what you want to
-    		return NewTextMsg("hello").Marshaler()
-    	}
+        // do what you want to
+        return NewTextMsg("hello").Marshaler()
+    }
 
     // 自定义方法注册到handler
   	RegisterCommand("hello", outgoingFunc, 2, true)
@@ -130,7 +130,7 @@
             }'
         ```
     3. 获取返回结果
-       ```
+       ```json
        {
            "msgtype": "text",
            "text": {
