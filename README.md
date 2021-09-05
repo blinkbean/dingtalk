@@ -138,7 +138,7 @@
            "at": {}
        }
        ```
-- ![atdlam.jpg](https://i.loli.net/2021/09/05/XzKUgxPd15G9EtL.jpg)
+- ![Xnip2021-09-05_17-09-21.jpeg](https://i.loli.net/2021/09/05/cP4IdKhlxbs1mSn.jpg)
 
 ### Text类型
 - 方法及可选参数
@@ -174,7 +174,7 @@
     ```go
     cli.SendLinkMessage(title, text, picUrl, msgUrl)
     ```
-- ![Xnip2021-09-05_17-09-21.jpeg](https://i.loli.net/2021/09/05/cP4IdKhlxbs1mSn.jpg)
+- ![Xnip2020-07-05_10-25-33.jpg](https://i.loli.net/2020/07/05/wDG1sMPlU7XZQfr.jpg)
 
 ### Markdown类型
 - 方法及可选参数
