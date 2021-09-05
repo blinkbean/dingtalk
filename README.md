@@ -174,7 +174,7 @@
     ```go
     cli.SendLinkMessage(title, text, picUrl, msgUrl)
     ```
-- ![Xnip2020-07-05_10-25-33.jpg](https://i.loli.net/2020/07/05/wDG1sMPlU7XZQfr.jpg)
+- <img src="https://i.loli.net/2020/07/05/wDG1sMPlU7XZQfr.jpg" width="1244px"/>
 
 ### Markdown类型
 - 方法及可选参数
