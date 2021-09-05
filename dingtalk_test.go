@@ -1,9 +1,10 @@
 package dingtalk
 
 import (
-	"github.com/stretchr/testify/assert"
+	"net/http"
 	"testing"
 )
+
 var dingToken = []string{"b9230b8c762cb3a6f5dd977ad975c687e23fdefc6c762fe94a0f36bca73fb654"}
 //var dingToken = []string{"0471c091acf1d9dfc553e57525f57139859858b905836b8f45b228e6d6e3a289"} // onlyOne
 
@@ -20,22 +21,30 @@ func init() {
 
 func TestTextMsgWithSecret(t *testing.T) {
 	err := dingTalkCliWithSecret.SendTextMessage("加签测试", WithAtMobiles([]string{testPhone}))
-	assert.Equal(t, err, nil)
+	if err != nil {
+		t.Errorf("TestTextMsgWithSecret expected be nil, but %v got", err)
+	}
 }
 
 func TestTextMsg(t *testing.T) {
 	err := dingTalkCli.SendTextMessage("Text 测试", WithAtMobiles([]string{testPhone}))
-	assert.Equal(t, err, nil)
+	if err != nil {
+		t.Errorf("TestTextMsg expected be nil, but %v got", err)
+	}
 }
 
 func TestLinkMsg(t *testing.T) {
 	err := dingTalkCli.SendLinkMessage("Link title", "Link test.", testImg, testUrl)
-	assert.Equal(t, err, nil)
+	if err != nil {
+		t.Errorf("TestLinkMsg expected be nil, but %v got", err)
+	}
 }
 
 func TestMarkDownMsg(t *testing.T) {
-	err := dingTalkCli.SendMarkDownMessage("Markdown title", "### Link test\n --- \n- <font color=#00ff00 size=6>红色文字</font> \n - content2.", WithAtAll())
-	assert.Equal(t, err, nil)
+	err := dingTalkCli.SendMarkDownMessage("Markdown title", "### Link test\n --- \n- <font color=#ff0000 size=6>红色文字</font> \n - content2.", WithAtAll())
+	if err != nil {
+		t.Errorf("TestMarkDownMsg expected be nil, but %v got", err)
+	}
 }
 
 func TestSendDTMDMessage(t *testing.T) {
@@ -45,19 +54,22 @@ func TestSendDTMDMessage(t *testing.T) {
 		Set("dtmdOrderMap2", "dtmdValue2").
 		Set("dtmdOrderMap3", "dtmdValue3")
 	err := dingTalkCli.SendDTMDMessage("DTMD title", dtmdOrderMap)
-	assert.Equal(t, err, nil)
+	if err != nil {
+		t.Errorf("TestSendDTMDMessage expected be nil, but %v got", err)
+	}
 }
 
 func TestSendMarkDownMessageByList(t *testing.T) {
 	msg := []string{
 		"### Link test",
 		"---",
-		"- <font color=#00ff00 size=2>红色文字</font>",
+		"- <font color=#ff0000 size=2>红色文字</font>",
 		"- content2",
 	}
-	//err := dingTalkCli.SendMarkDownMessageBySlice("Markdown title", msg)
 	err := dingTalkCli.SendMarkDownMessageBySlice("Markdown title", msg, WithAtMobiles([]string{testPhone}))
-	assert.Equal(t, err, nil)
+	if err != nil {
+		t.Errorf("TestSendMarkDownMessageByList expected be nil, but %v got", err)
+	}
 }
 
 func TestActionCardMultiMsg(t *testing.T) {
@@ -71,7 +83,9 @@ func TestActionCardMultiMsg(t *testing.T) {
 	}
 	//err := dingTalkCli.SendActionCardMessage("ActionCard title", "ActionCard text.", WithCardSingleTitle("title"), WithCardSingleURL(testUrl))
 	err := dingTalkCli.SendActionCardMessage("ActionCard title", "- ActionCard text.", WithCardBtns(Btns), WithCardBtnVertical())
-	assert.Equal(t, err, nil)
+	if err != nil {
+		t.Errorf("TestActionCardMultiMsg expected be nil, but %v got", err)
+	}
 }
 
 func TestActionCardMultiMsgBySlice(t *testing.T) {
@@ -93,7 +107,9 @@ func TestActionCardMultiMsgBySlice(t *testing.T) {
 	dm.Set("普通文字", N)
 	//err := dingTalkCli.SendActionCardMessage("ActionCard title", "ActionCard text.", WithCardSingleTitle("title"), WithCardSingleURL(testUrl))
 	err := dingTalkCli.SendActionCardMessageBySlice("ActionCard title", dm.Slice(), WithCardBtns(Btns), WithCardBtnVertical())
-	assert.Equal(t, err, nil)
+	if err != nil {
+		t.Errorf("TestActionCardMultiMsgBySlice expected be nil, but %v got", err)
+	}
 }
 
 func TestFeedCardMsg(t *testing.T) {
@@ -115,7 +131,9 @@ func TestFeedCardMsg(t *testing.T) {
 		},
 	}
 	err := dingTalkCli.SendFeedCardMessage(links)
-	assert.Equal(t, err, nil)
+	if err != nil {
+		t.Errorf("TestFeedCardMsg expected be nil, but %v got", err)
+	}
 }
 
 func TestDingMap(t *testing.T) {
@@ -128,5 +146,17 @@ func TestDingMap(t *testing.T) {
 	dm.Set("警告", BLUE)
 	dm.Set("普通文字", N)
 	err := dingTalkCli.SendMarkDownMessageBySlice("color test", dm.Slice())
-	assert.Equal(t, err, nil)
+	if err != nil {
+		t.Errorf("TestDingMap expected be nil, but %v got", err)
+	}
+}
+
+func TestOutGoing(t *testing.T) {
+	outgoingFunc := func(args []string) []byte {
+		// do what you want to
+		return NewTextMsg("hello").Marshaler()
+	}
+	RegisterCommand("hello", outgoingFunc, 2, true)
+	http.Handle("/test", &OutGoingHandler{})
+	_ = http.ListenAndServe(":8000", nil)
 }

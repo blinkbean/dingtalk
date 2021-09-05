@@ -1,8 +1,8 @@
 package dingtalk
 
 import (
+	"encoding/json"
 	"fmt"
-	jsoniter "github.com/json-iterator/go"
 	"strings"
 )
 
@@ -45,7 +45,7 @@ type textMsg struct {
 }
 
 func (t textMsg) Marshaler() []byte {
-	b, _ := jsoniter.Marshal(t)
+	b, _ := json.Marshal(t)
 	return b
 }
 
@@ -63,7 +63,7 @@ type linkMsg struct {
 }
 
 func (l linkMsg) Marshaler() []byte {
-	b, _ := jsoniter.Marshal(l)
+	b, _ := json.Marshal(l)
 	return b
 }
 
@@ -83,7 +83,7 @@ type markDownMsg struct {
 }
 
 func (m markDownMsg) Marshaler() []byte {
-	b, _ := jsoniter.Marshal(m)
+	b, _ := json.Marshal(m)
 	return b
 }
 
@@ -159,7 +159,7 @@ type actionCardMsg struct {
 }
 
 func (a actionCardMsg) Marshaler() []byte {
-	b, _ := jsoniter.Marshal(a)
+	b, _ := json.Marshal(a)
 	return b
 }
 
@@ -182,7 +182,7 @@ type feedCardMsg struct {
 }
 
 func (f feedCardMsg) Marshaler() []byte {
-	b, _ := jsoniter.Marshal(f)
+	b, _ := json.Marshal(f)
 	return b
 }
 

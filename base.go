@@ -10,6 +10,12 @@ const (
 	FEED_CARD   msgTypeType = "feedCard"
 )
 
+type DingTalk struct {
+	robotToken []string
+	secret     string
+	keyWord        string
+}
+
 type textModel struct {
 	Content string `json:"content,omitempty"`
 }
@@ -62,7 +68,7 @@ type FeedCardLinkModel struct {
 	PicURL     string `json:"picURL,omitempty"`
 }
 
-type OutGoingModel struct {
+type outGoingModel struct {
 	AtUsers []struct {
 		DingtalkID string `json:"dingtalkId"`
 	} `json:"atUsers"`
@@ -84,3 +90,5 @@ type OutGoingModel struct {
 		Content string `json:"content"`
 	} `json:"text"`
 }
+
+type ExecFunc func(args []string) []byte

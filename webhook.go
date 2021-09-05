@@ -15,13 +15,6 @@ import (
 	"time"
 )
 
-type DingTalk struct {
-	robotToken []string
-	secret     string
-	keyWord        string
-}
-
-
 func InitDingTalk(tokens []string, key string) *DingTalk {
 	if len(tokens) == 0 {
 		panic("no token")
@@ -85,7 +78,7 @@ func (d *DingTalk) sign(t int64, secret string) string {
 	return base64.StdEncoding.EncodeToString(data)
 }
 
-func (d *DingTalk) OutGoing(r io.Reader) (outGoingMsg OutGoingModel, err error) {
+func (d *DingTalk) OutGoing(r io.Reader) (outGoingMsg outGoingModel, err error) {
 	buf, err := ioutil.ReadAll(r)
 	if err != nil {
 		return

@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"context"
 	"fmt"
-	"golang.org/x/net/context/ctxhttp"
 	"net"
 	"net/http"
 	"time"
@@ -15,11 +14,8 @@ var (
 )
 
 const (
-	defaultMaxIdleConns        int = 100
-	defaultMaxIdleConnsPerHost int = 100
-	defaultIdleConnTimeout         = 90 * time.Second
-	defaultDialTimeout             = 30 * time.Second
-	defaultKeepAlive               = 30 * time.Second
+	defaultDialTimeout             = 2 * time.Second
+	defaultKeepAlive               = 2 * time.Second
 )
 
 func init() {
@@ -35,10 +31,8 @@ func initDefaultHTTPClient() *http.Client {
 				Timeout:   defaultDialTimeout,
 				KeepAlive: defaultKeepAlive,
 			}).DialContext,
-			MaxIdleConns:        defaultMaxIdleConns,
-			MaxIdleConnsPerHost: defaultMaxIdleConnsPerHost,
-			IdleConnTimeout:     defaultIdleConnTimeout,
 		},
+		Timeout: defaultDialTimeout,
 	}
 	return client
 }
@@ -58,7 +52,7 @@ func doRequest(ctx context.Context, callMethod string, endPoint string, header m
 	}
 	req = req.WithContext(ctx)
 	// use myHttpClient to send request
-	response, err := ctxhttp.Do(req.Context(), myHTTPClient, req)
+	response, err := myHTTPClient.Do(req)
 	if err != nil {
 		return nil, err
 	}
