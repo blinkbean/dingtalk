@@ -2,13 +2,14 @@
 钉钉机器人消息封装——Golang
 
 目前自定义机器人支持
-- 文本（text）
-- 链接（link）
-- markdown
+- [文本（Text）](#text类型)
+- [链接（Link）](#link类型)
+- [Markdown](#markdown类型)
 - ActionCard
-    - 整体跳转
-    - 独立跳转
-- FeedCard
+    - [整体跳转](#整体跳转actioncard类型)
+    - [独立跳转](#独立跳转actioncard类型)
+- [FeedCard](#feedcard类型)
+- [OutGoing](#outgoing)
 
 [机器人官方文档](https://ding-doc.dingtalk.com/doc#/serverapi2/qf2nxq)
 
