@@ -156,7 +156,7 @@ func TestOutGoing(t *testing.T) {
 		// do what you want to
 		return NewTextMsg("hello").Marshaler()
 	}
-	RegisterCommand("hello", outgoingFunc, 2, true)
-	http.Handle("/test", &OutGoingHandler{})
+	RegisterCommand("hello", outgoingFunc, 1, true)
+	http.Handle("/outgoing", &OutGoingHandler{})
 	_ = http.ListenAndServe(":8000", nil)
 }

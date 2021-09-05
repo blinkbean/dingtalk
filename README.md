@@ -2,6 +2,7 @@
 钉钉机器人消息封装——Golang
 
 目前自定义机器人支持
+- [OutGoing](#outgoing) `新`
 - [文本（Text）](#text类型)
 - [链接（Link）](#link类型)
 - [Markdown](#markdown类型)
@@ -9,7 +10,6 @@
     - [整体跳转](#整体跳转actioncard类型)
     - [独立跳转](#独立跳转actioncard类型)
 - [FeedCard](#feedcard类型)
-- [OutGoing](#outgoing)
 
 [机器人官方文档](https://ding-doc.dingtalk.com/doc#/serverapi2/qf2nxq)
 
@@ -45,7 +45,102 @@
         cli.SendTextMessage("content")
     }
     ```
-### text类型
+    
+### OutGoing
+- 钉钉OutGoing机器人原理
+  > 给钉钉机器人绑定一个HTTP类型的POST接口，通过@群机器人，将消息发送到指定外部服务，还可以将外部服务的响应结果返回到群组。
+
+- 配置步骤
+ 1. 创建钉钉群机器人时选中 `是否开启Outgoing机制`。
+ 2. 配置POST地址（接口地址，如：http://robot.blinkbean.com/outgoing），必须是外网是可访问接口。
+ 2. 当前未做Token相关逻辑，填写内容不影响测试和使用。
+
+- 钉钉发送的消息格式
+    ```json
+    {
+        "atUsers":[
+            {
+                "dingtalkId":"$:LWCP_v1:$1h0bmSzcLCHncx0lCt3Bb/UVz7xv/8vh*"
+            }],
+        "chatbotUserId":"$:LWCP_v1:$1hbmLCHncx0lCt3Bb/UVz7x/8vh*",
+        "conversationId":"cidkkCwvtlh1L0RmFuhmashi*==",
+        "conversationTitle":"Blinkbean",
+        "conversationType":"2",
+        "createAt":1295212438950,
+        "isAdmin":false,
+        "isInAtList":true,
+        "msgId":"msgm/bJkKjTupFM7ZoRF/eKR*==",
+        "msgtype":"text",
+        "sceneGroupCode":"project",
+        "senderId":"$:LWCP_v1:$x4wFOct/DGctv96o4IxxB*==",
+        "senderNick":"blinkbean",
+        "sessionWebhook":"https://oapi.dingtalk.com/robot/sendBySession?session=6d69b333f243db32d42c11sda9de620*",
+        "sessionWebhookExpiredTime":1595212438350,
+        "text":{
+            "content":" hello"
+        }
+    }
+    ```
+- 方法及可选参数
+    > 通过命令注册的方式，简化新命令增加操作，方便命令及其绑定方法的管理。
+
+    ```go
+    //接口方法
+    type ExecFunc func(args []string) []byte
+  
+    // 注册方法
+    func RegisterCommand(name string, execFunc ExecFunc, arity int, isAdmin bool) {
+    	cmdTable[name] = &command{
+    		executor: execFunc,
+    		arity:    arity,
+    		isAdmin:  isAdmin,
+    	}
+    }
+    
+    // Handler
+    type OutGoingHandler struct{}
+    ```
+- 使用
+    ```go
+    // 自定义方法
+    outgoingFunc := func(args []string) []byte {
+    		// do what you want to
+    		return NewTextMsg("hello").Marshaler()
+    	}
+
+    // 自定义方法注册到handler
+  	RegisterCommand("hello", outgoingFunc, 2, true)
+  
+    // 启动http服务
+  	http.Handle("/outgoing", &OutGoingHandler{})
+  	_ = http.ListenAndServe(":8000", nil)
+    ```
+- 本地测试
+    1. 执行dingtalk_test.go TestOutGoing 方法启动http服务
+    2. 执行以下curl命令（只保留了部分参数）
+        ```shell script
+        curl --location --request POST '127.0.0.1:8000/outgoing' \
+        --header 'Content-type: application/json' \
+        --data-raw '    {
+                "isAdmin":true,
+                "msgtype":"text",
+                "text":{
+                    "content":"hello"
+                }
+            }'
+        ```
+    3. 获取返回结果
+       ```
+       {
+           "msgtype": "text",
+           "text": {
+               "content": "hello"
+           },
+           "at": {}
+       }
+       ```
+
+### Text类型
 - 方法及可选参数
     ```go
     // 方法定义
@@ -69,7 +164,7 @@
     ```
 - ![Xnip2020-07-05_10-46-59.jpg](https://i.loli.net/2020/07/05/LXErbH1KiRGstQ7.jpg)
 
-### link类型
+### Link类型
 - 方法
     ```go
     // 方法定义
@@ -81,7 +176,7 @@
     ```
 - ![Xnip2020-07-05_10-25-33.jpg](https://i.loli.net/2020/07/05/wDG1sMPlU7XZQfr.jpg)
 
-### markdown类型
+### Markdown类型
 - 方法及可选参数
     ```go
     // 方法定义
@@ -225,46 +320,3 @@
     cli.SendFeedCardMessage(links)
     ```
 - ![Xnip2020-07-05_10-30-02.jpg](https://i.loli.net/2020/07/05/F5WDLqyJ4Yzfj6A.jpg)
-
-### OutGoing
-- 消息格式
-    ```json
-    {
-        "atUsers":[
-            {
-                "dingtalkId":"$:LWCP_v1:$1h0bmSzcLCHncx0lCt3Bb/UVz7xv/8vh*"
-            }],
-        "chatbotUserId":"$:LWCP_v1:$1h0bmSzcLCHncx0lCt3Bb/UVz7x/8vh*",
-        "conversationId":"cidkkCwvtlh1L0RmFuhmashi*==",
-        "conversationTitle":"项目群",
-        "conversationType":"2",
-        "createAt":1595232438950,
-        "isAdmin":false,
-        "isInAtList":true,
-        "msgId":"msgm/bJkKjTupFM7ZoRF/eKR*==",
-        "msgtype":"text",
-        "sceneGroupCode":"project",
-        "senderId":"$:LWCP_v1:$x4wFOct/DGctv96o4IxxB*==",
-        "senderNick":"blinkbean",
-        "sessionWebhook":"https://oapi.dingtalk.com/robot/sendBySession?session=6d69b333f243db32d42c11sda9de620*",
-        "sessionWebhookExpiredTime":1595237839030,
-        "text":{
-            "content":" outgoing"
-        }
-    }
-    ```
-  
-- Usage
-    ```go
-    func OutGoing(ctx *gin.Context){
-        cli := dingtalk.InitDingTalk([]string{"***"}, ".")
-        msg, _ := cli.OutGoing(ctx.Request.Body)
-        // 处理content
-        res := doSomeThing(msg.Text.Content)
-  
-        textMsg := dingtalk.NewTextMsg(res)
-        ctx.Set("respData", textMsg)
-        ctx.JSON(ctx.Writer.Status(), data)
-        return 
-    }
-    ```

@@ -12,7 +12,7 @@ var cmdTable = make(map[string]*command)
 type command struct {
 	executor ExecFunc
 	isAdmin  bool // 是否需要管理员权限
-	arity    int
+	arity    int  // 参数个数
 }
 
 func RegisterCommand(name string, execFunc ExecFunc, arity int, isAdmin bool) {
