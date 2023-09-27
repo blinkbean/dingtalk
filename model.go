@@ -18,23 +18,23 @@ type funcAtOption struct {
 	f func(model *atModel)
 }
 
-func (fdo *funcAtOption) apply(do *atModel)  {
+func (fdo *funcAtOption) apply(do *atModel) {
 	fdo.f(do)
 }
 
-func newFuncAtOption(f func(model *atModel)) *funcAtOption{
-	return &funcAtOption{f:f}
+func newFuncAtOption(f func(model *atModel)) *funcAtOption {
+	return &funcAtOption{f: f}
 }
 
-func WithAtAll() atOption{
+func WithAtAll() atOption {
 	return newFuncAtOption(func(o *atModel) {
-		o.IsAtAll=true
+		o.IsAtAll = true
 	})
 }
 
-func WithAtMobiles(mobiles []string) atOption{
+func WithAtMobiles(mobiles []string) atOption {
 	return newFuncAtOption(func(o *atModel) {
-		o.AtMobiles=mobiles
+		o.AtMobiles = mobiles
 	})
 }
 
@@ -50,8 +50,8 @@ func (t textMsg) Marshaler() []byte {
 }
 
 func NewTextMsg(content string, opts ...atOption) *textMsg {
-	msg := &textMsg{MsgType: TEXT, Text:textModel{Content:content}}
-	for _,opt := range opts{
+	msg := &textMsg{MsgType: TEXT, Text: textModel{Content: content}}
+	for _, opt := range opts {
 		opt.apply(&msg.At)
 	}
 	return msg
@@ -68,7 +68,7 @@ func (l linkMsg) Marshaler() []byte {
 }
 
 func NewLinkMsg(title, text, picUrl, msgUrl string) *linkMsg {
-	return &linkMsg{MsgType: LINK, Link:linkModel{
+	return &linkMsg{MsgType: LINK, Link: linkModel{
 		Text:       text,
 		Title:      title,
 		PicUrl:     picUrl,
@@ -97,8 +97,8 @@ func NewDTMDMsg(title string, dtmdMap *dingMap, opts ...atOption) *markDownMsg {
 
 func NewMarkDownMsg(title string, text interface{}, opts ...atOption) *markDownMsg {
 
-	msg := &markDownMsg{MsgType: MARKDOWN, Markdown:markDownModel{Title:title, Text:text.(string)}}
-	for _,opt := range opts{
+	msg := &markDownMsg{MsgType: MARKDOWN, Markdown: markDownModel{Title: title, Text: text.(string)}}
+	for _, opt := range opts {
 		opt.apply(&msg.At)
 	}
 	// markdown格式需要在文本内写入被at的人
@@ -120,36 +120,35 @@ type funcActionCardOption struct {
 	f func(model *actionCardModel)
 }
 
-func (fdo *funcActionCardOption) apply(do *actionCardModel)  {
+func (fdo *funcActionCardOption) apply(do *actionCardModel) {
 	fdo.f(do)
 }
 
-func newFuncActionCardOption(f func(model *actionCardModel)) *funcActionCardOption{
-	return &funcActionCardOption{f:f}
+func newFuncActionCardOption(f func(model *actionCardModel)) *funcActionCardOption {
+	return &funcActionCardOption{f: f}
 }
 
-
-func WithCardBtnVertical() actionCardOption{
+func WithCardBtnVertical() actionCardOption {
 	return newFuncActionCardOption(func(o *actionCardModel) {
-		o.BtnOrientation=vertical
+		o.BtnOrientation = vertical
 	})
 }
 
-func WithCardSingleTitle(title string) actionCardOption{
+func WithCardSingleTitle(title string) actionCardOption {
 	return newFuncActionCardOption(func(o *actionCardModel) {
-		o.SingleTitle=title
+		o.SingleTitle = title
 	})
 }
 
-func WithCardSingleURL(url string) actionCardOption{
+func WithCardSingleURL(url string) actionCardOption {
 	return newFuncActionCardOption(func(o *actionCardModel) {
-		o.SingleURL=url
+		o.SingleURL = url
 	})
 }
 
-func WithCardBtns(btns []ActionCardMultiBtnModel)actionCardOption{
+func WithCardBtns(btns []ActionCardMultiBtnModel) actionCardOption {
 	return newFuncActionCardOption(func(o *actionCardModel) {
-		o.Btns=btns
+		o.Btns = btns
 	})
 }
 
@@ -164,17 +163,16 @@ func (a actionCardMsg) Marshaler() []byte {
 }
 
 func NewActionCardMsg(title, text string, opts ...actionCardOption) *actionCardMsg {
-	card := &actionCardMsg{MsgType: ACTION_CARD, ActionCard:actionCardModel{
+	card := &actionCardMsg{MsgType: ACTION_CARD, ActionCard: actionCardModel{
 		Title:          title,
 		Text:           text,
 		BtnOrientation: horizontal,
 	}}
-	for _, opt := range opts{
+	for _, opt := range opts {
 		opt.apply(&card.ActionCard)
 	}
 	return card
 }
-
 
 type feedCardMsg struct {
 	MsgType  msgTypeType   `json:"msgtype,omitempty"`
@@ -187,7 +185,7 @@ func (f feedCardMsg) Marshaler() []byte {
 }
 
 func NewFeedCardMsg(feedCard []FeedCardLinkModel) *feedCardMsg {
-	return &feedCardMsg{MsgType: FEED_CARD, FeedCard:feedCardModel{Links:feedCard}}
+	return &feedCardMsg{MsgType: FEED_CARD, FeedCard: feedCardModel{Links: feedCard}}
 }
 
 type MarkType string
@@ -199,7 +197,7 @@ type dingMap struct {
 }
 
 func DingMap() *dingMap {
-	return &dingMap{m: make(map[string]MarkType), l: make([]string,0,0)}
+	return &dingMap{m: make(map[string]MarkType), l: make([]string, 0, 0)}
 }
 
 func (d *dingMap) Set(val string, t MarkType) *dingMap {
@@ -246,4 +244,9 @@ func (d *dingMap) formatVal(val string, t MarkType) (res string) {
 		res = "- " + res
 	}
 	return
+}
+
+type responseMsg struct {
+	ErrCode int    `json:"errcode"`
+	ErrMsg  string `json:"errmsg"`
 }

@@ -21,17 +21,17 @@ func InitDingTalk(tokens []string, key string) *DingTalk {
 	}
 	return &DingTalk{
 		robotToken: tokens,
-		keyWord: key,
+		keyWord:    key,
 	}
 }
 
 func InitDingTalkWithSecret(tokens string, secret string) *DingTalk {
-	if len(tokens) == 0 || secret==""{
+	if len(tokens) == 0 || secret == "" {
 		panic("no token")
 	}
 	return &DingTalk{
 		robotToken: []string{tokens},
-		secret: secret,
+		secret:     secret,
 	}
 }
 
@@ -48,7 +48,7 @@ func (d *DingTalk) sendMessage(msg iDingMsg) error {
 
 	value := url.Values{}
 	value.Set("access_token", d.robotToken[rand.Intn(len(d.robotToken))])
-	if d.secret!=""{
+	if d.secret != "" {
 		t := time.Now().UnixNano() / 1e6
 		value.Set("timestamp", fmt.Sprintf("%d", t))
 		value.Set("sign", d.sign(t, d.secret))
@@ -64,8 +64,16 @@ func (d *DingTalk) sendMessage(msg iDingMsg) error {
 		return err
 	}
 	if resp.StatusCode != http.StatusOK {
-		body, _ := ioutil.ReadAll(resp.Body)
-		return fmt.Errorf("send msg err: %s, token: %s, msg: %s", string(body), d.robotToken, msg.Marshaler())
+		return fmt.Errorf("send msg err. http code: %d, token: %s, msg: %s", resp.StatusCode, d.robotToken, msg.Marshaler())
+	}
+	body, _ := ioutil.ReadAll(resp.Body)
+	var respMsg responseMsg
+	err = json.Unmarshal(body, &respMsg)
+	if err != nil {
+		return err
+	}
+	if respMsg.ErrCode != 0 {
+		return fmt.Errorf("send msg err. err msg: %s", respMsg.ErrMsg)
 	}
 	return nil
 }
