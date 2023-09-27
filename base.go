@@ -13,7 +13,7 @@ const (
 type DingTalk struct {
 	robotToken []string
 	secret     string
-	keyWord        string
+	keyWord    string
 }
 
 type textModel struct {

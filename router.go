@@ -2,7 +2,7 @@ package dingtalk
 
 import (
 	"encoding/json"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"strings"
 )
@@ -49,6 +49,7 @@ func execDingCommand(msg outGoingModel) []byte {
 }
 
 // MyHandler实现Handler接口
+
 type OutGoingHandler struct{}
 
 func (h *OutGoingHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
@@ -56,7 +57,7 @@ func (h *OutGoingHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	var err error
 	var buf []byte
 	obj := outGoingModel{}
-	buf, err = ioutil.ReadAll(body)
+	buf, err = io.ReadAll(body)
 	if err != nil {
 		return
 	}

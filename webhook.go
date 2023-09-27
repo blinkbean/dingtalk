@@ -8,7 +8,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"math/rand"
 	"net/http"
 	"net/url"
@@ -66,7 +65,7 @@ func (d *DingTalk) sendMessage(msg iDingMsg) error {
 	if resp.StatusCode != http.StatusOK {
 		return fmt.Errorf("send msg err. http code: %d, token: %s, msg: %s", resp.StatusCode, d.robotToken, msg.Marshaler())
 	}
-	body, _ := ioutil.ReadAll(resp.Body)
+	body, _ := io.ReadAll(resp.Body)
 	var respMsg responseMsg
 	err = json.Unmarshal(body, &respMsg)
 	if err != nil {
@@ -87,7 +86,7 @@ func (d *DingTalk) sign(t int64, secret string) string {
 }
 
 func (d *DingTalk) OutGoing(r io.Reader) (outGoingMsg outGoingModel, err error) {
-	buf, err := ioutil.ReadAll(r)
+	buf, err := io.ReadAll(r)
 	if err != nil {
 		return
 	}
@@ -105,13 +104,13 @@ func (d *DingTalk) SendMarkDownMessage(title, text string, opts ...atOption) err
 	return d.sendMessage(NewMarkDownMsg(title, text, opts...))
 }
 
-// 利用dtmd发送点击消息
+// SendDTMDMessage 利用dtmd发送点击消息
 func (d *DingTalk) SendDTMDMessage(title string, dtmdMap *dingMap, opt ...atOption) error {
 	title = title + d.keyWord
 	return d.sendMessage(NewDTMDMsg(title, dtmdMap, opt...))
 }
 
-func (d DingTalk) SendMarkDownMessageBySlice(title string, textList []string, opts ...atOption) error {
+func (d *DingTalk) SendMarkDownMessageBySlice(title string, textList []string, opts ...atOption) error {
 	title = title + d.keyWord
 	text := ""
 	for _, t := range textList {
