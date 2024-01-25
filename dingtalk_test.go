@@ -1,11 +1,14 @@
 package dingtalk
 
 import (
+	"context"
 	"net/http"
 	"testing"
+	"time"
 )
 
 var dingToken = []string{"b9230b8c762cb3a6f5dd977ad975c687e23fdefc6c762fe94a0f36bca73fb654"}
+
 //var dingToken = []string{"0471c091acf1d9dfc553e57525f57139859858b905836b8f45b228e6d6e3a289"} // onlyOne
 
 var dingTalkCli = InitDingTalk(dingToken, ".")
@@ -19,6 +22,14 @@ func init() {
 	dingTalkCli = InitDingTalk(dingToken, ".")
 }
 
+func TestDingTalkInitWithTimeout(t *testing.T) {
+	dingTalkCliWithOpt := InitDingTalk(dingToken, ".", WithInitSendTimeout(time.Second*3))
+	err := dingTalkCliWithOpt.SendTextMessage("增加sendTimeout,自定义超时时间", WithAtMobiles([]string{testPhone}))
+	if err != nil {
+		t.Errorf("TestTextMsgWithSecret expected be nil, but %v got", err)
+	}
+}
+
 func TestTextMsgWithSecret(t *testing.T) {
 	err := dingTalkCliWithSecret.SendTextMessage("加签测试", WithAtMobiles([]string{testPhone}))
 	if err != nil {
@@ -30,6 +41,17 @@ func TestTextMsg(t *testing.T) {
 	err := dingTalkCli.SendTextMessage("Text 测试", WithAtMobiles([]string{testPhone}))
 	if err != nil {
 		t.Errorf("TestTextMsg expected be nil, but %v got", err)
+	}
+}
+
+func TestTextMsgWithCtx(t *testing.T) {
+	err := dingTalkCli.SendTextMessage("Text No Context 兼容测试", WithAtMobiles([]string{testPhone}))
+	if err != nil {
+		t.Errorf("TestTextMsg SendTextMessage expected be nil, but %v got", err)
+	}
+	err = dingTalkCli.SendTextMessageWithCtx(context.Background(), "Text With Context 测试", WithAtMobiles([]string{testPhone}))
+	if err != nil {
+		t.Errorf("TestTextMsg SendTextMessageWithCtx expected be nil, but %v got", err)
 	}
 }
 

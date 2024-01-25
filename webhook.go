@@ -14,37 +14,46 @@ import (
 	"time"
 )
 
-func InitDingTalk(tokens []string, key string) *DingTalk {
+func InitDingTalk(tokens []string, key string, opts ...initOption) *DingTalk {
 	if len(tokens) == 0 {
 		panic("no token")
 	}
-	return &DingTalk{
+	dt := &DingTalk{
 		robotToken: tokens,
 		keyWord:    key,
 	}
+	for _, opt := range opts {
+		opt.applyInit(&dt.InitModel)
+	}
+	return dt
 }
 
-func InitDingTalkWithSecret(tokens string, secret string) *DingTalk {
+func InitDingTalkWithSecret(tokens string, secret string, opts ...initOption) *DingTalk {
 	if len(tokens) == 0 || secret == "" {
 		panic("no token")
 	}
-	return &DingTalk{
+	dt := &DingTalk{
 		robotToken: []string{tokens},
 		secret:     secret,
 	}
+	for _, opt := range opts {
+		opt.applyInit(&dt.InitModel)
+	}
+	return dt
 }
 
-func (d *DingTalk) sendMessage(msg iDingMsg) error {
-	var (
-		ctx    context.Context
-		cancel context.CancelFunc
-		uri    string
-		resp   *http.Response
-		err    error
-	)
-	ctx, cancel = context.WithTimeout(context.Background(), time.Second*2)
+func (d *DingTalk) sendMessageNoCtx(msg iDingMsg) error {
+	ctx, cancel := context.WithTimeout(context.Background(), d.InitModel.GetSendTimeout())
 	defer cancel()
+	return d.sendMessage(ctx, msg)
+}
 
+func (d *DingTalk) sendMessage(ctx context.Context, msg iDingMsg) error {
+	var (
+		uri  string
+		resp *http.Response
+		err  error
+	)
 	value := url.Values{}
 	value.Set("access_token", d.robotToken[rand.Intn(len(d.robotToken))])
 	if d.secret != "" {
@@ -96,18 +105,18 @@ func (d *DingTalk) OutGoing(r io.Reader) (outGoingMsg outGoingModel, err error) 
 
 func (d *DingTalk) SendTextMessage(content string, opt ...atOption) error {
 	content = content + d.keyWord
-	return d.sendMessage(NewTextMsg(content, opt...))
+	return d.sendMessageNoCtx(NewTextMsg(content, opt...))
 }
 
 func (d *DingTalk) SendMarkDownMessage(title, text string, opts ...atOption) error {
 	title = title + d.keyWord
-	return d.sendMessage(NewMarkDownMsg(title, text, opts...))
+	return d.sendMessageNoCtx(NewMarkDownMsg(title, text, opts...))
 }
 
 // SendDTMDMessage 利用dtmd发送点击消息
 func (d *DingTalk) SendDTMDMessage(title string, dtmdMap *dingMap, opt ...atOption) error {
 	title = title + d.keyWord
-	return d.sendMessage(NewDTMDMsg(title, dtmdMap, opt...))
+	return d.sendMessageNoCtx(NewDTMDMsg(title, dtmdMap, opt...))
 }
 
 func (d *DingTalk) SendMarkDownMessageBySlice(title string, textList []string, opts ...atOption) error {
@@ -116,17 +125,17 @@ func (d *DingTalk) SendMarkDownMessageBySlice(title string, textList []string, o
 	for _, t := range textList {
 		text = text + "\n" + t
 	}
-	return d.sendMessage(NewMarkDownMsg(title, text, opts...))
+	return d.sendMessageNoCtx(NewMarkDownMsg(title, text, opts...))
 }
 
 func (d *DingTalk) SendLinkMessage(title, text, picUrl, msgUrl string) error {
 	title = title + d.keyWord
-	return d.sendMessage(NewLinkMsg(title, text, picUrl, msgUrl))
+	return d.sendMessageNoCtx(NewLinkMsg(title, text, picUrl, msgUrl))
 }
 
 func (d *DingTalk) SendActionCardMessage(title, text string, opts ...actionCardOption) error {
 	title = title + d.keyWord
-	return d.sendMessage(NewActionCardMsg(title, text, opts...))
+	return d.sendMessageNoCtx(NewActionCardMsg(title, text, opts...))
 }
 
 func (d *DingTalk) SendActionCardMessageBySlice(title string, textList []string, opts ...actionCardOption) error {
@@ -135,12 +144,12 @@ func (d *DingTalk) SendActionCardMessageBySlice(title string, textList []string,
 	for _, t := range textList {
 		text = text + "\n" + t
 	}
-	return d.sendMessage(NewActionCardMsg(title, text, opts...))
+	return d.sendMessageNoCtx(NewActionCardMsg(title, text, opts...))
 }
 
 func (d *DingTalk) SendFeedCardMessage(feedCard []FeedCardLinkModel) error {
 	if len(feedCard) > 0 {
 		feedCard[0].Title = feedCard[0].Title + d.keyWord
 	}
-	return d.sendMessage(NewFeedCardMsg(feedCard))
+	return d.sendMessageNoCtx(NewFeedCardMsg(feedCard))
 }

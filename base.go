@@ -1,5 +1,7 @@
 package dingtalk
 
+import "time"
+
 type msgTypeType string
 
 const (
@@ -10,10 +12,44 @@ const (
 	FEED_CARD   msgTypeType = "feedCard"
 )
 
+type initModel struct {
+	InitSendTimeout time.Duration
+}
+
+func (i initModel) GetSendTimeout() time.Duration {
+	if i.InitSendTimeout > 0 {
+		return i.InitSendTimeout
+	}
+	return time.Second * 2
+}
+
+type initOption interface {
+	applyInit(model *initModel)
+}
+
+type funcInitOption struct {
+	f func(model *initModel)
+}
+
+func (fdo *funcInitOption) applyInit(do *initModel) {
+	fdo.f(do)
+}
+
+func newFuncInitOption(f func(model *initModel)) *funcInitOption {
+	return &funcInitOption{f: f}
+}
+
+func WithInitSendTimeout(v time.Duration) initOption {
+	return newFuncInitOption(func(o *initModel) {
+		o.InitSendTimeout = v
+	})
+}
+
 type DingTalk struct {
 	robotToken []string
 	secret     string
 	keyWord    string
+	InitModel  initModel
 }
 
 type textModel struct {
