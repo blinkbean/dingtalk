@@ -14,8 +14,8 @@ var (
 )
 
 const (
-	defaultDialTimeout             = 2 * time.Second
-	defaultKeepAlive               = 2 * time.Second
+	defaultDialTimeout = 2 * time.Second
+	defaultKeepAlive   = 2 * time.Second
 )
 
 func init() {
@@ -37,10 +37,7 @@ func initDefaultHTTPClient() *http.Client {
 	return client
 }
 
-
-
 func doRequest(ctx context.Context, callMethod string, endPoint string, header map[string]string, body []byte) (*http.Response, error) {
-
 	req, err := http.NewRequest(callMethod, endPoint, bytes.NewBuffer(body))
 	if err != nil {
 		return nil, err
@@ -57,7 +54,7 @@ func doRequest(ctx context.Context, callMethod string, endPoint string, header m
 		return nil, err
 	}
 	if response == nil {
-		return nil, fmt.Errorf("reponse is nil, please check it")
+		return nil, fmt.Errorf("response is nil, please check it")
 	}
 
 	return response, nil
