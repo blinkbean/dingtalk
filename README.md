@@ -6,6 +6,14 @@
 [![Production Ready](https://img.shields.io/badge/production-ready-blue.svg?style=flat)](https://github.com/blinkbean/dingtalk)
 [![License](https://img.shields.io/github/license/blinkbean/dingtalk.svg?style=flat)](https://github.com/blinkbean/dingtalk)
 
+[![Release](https://img.shields.io/github/v/release/blinkbean/dingtalk?style=flat)](https://github.com/blinkbean/dingtalk/releases)
+[![GitHub pull requests](https://img.shields.io/github/issues-pr/blinkbean/dingtalk?style=flat)](https://github.com/blinkbean/dingtalk/pulls)
+[![GitHub closed pull requests](https://img.shields.io/github/issues-pr-closed/blinkbean/dingtalk?style=flat)](https://github.com/blinkbean/dingtalk/pulls?q=is%3Apr+is%3Aclosed)
+[![GitHub issues](https://img.shields.io/github/issues/blinkbean/dingtalk?style=flat)](https://github.com/blinkbean/dingtalk/issues)
+[![GitHub closed issues](https://img.shields.io/github/issues-closed/blinkbean/dingtalk?style=flat)](https://github.com/blinkbean/dingtalk/issues?q=is%3Aissue+is%3Aclosed)
+![Stars](https://img.shields.io/github/stars/blinkbean/dingtalk?style=flat)
+![Forks](https://img.shields.io/github/forks/blinkbean/dingtalk?style=flat)
+
 </div>
 
 ## 钉钉机器人消息封装——Golang
