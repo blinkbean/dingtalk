@@ -3,6 +3,8 @@
 <div align=center>
 
 [![Go Report Card](https://goreportcard.com/badge/github.com/blinkbean/dingtalk)](https://goreportcard.com/report/github.com/blinkbean/dingtalk)
+[![Production Ready](https://img.shields.io/badge/production-ready-blue.svg?style=flat)](https://github.com/blinkbean/dingtalk)
+[![License](https://img.shields.io/github/license/blinkbean/dingtalk.svg?style=flat)](https://github.com/blinkbean/dingtalk)
 
 </div>
 
