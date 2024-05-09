@@ -1,5 +1,9 @@
-# dingtalk
-钉钉机器人消息封装——Golang
+# Dingtalk
+<div align=center>
+[![Go Report Card](https://goreportcard.com/badge/github.com/blinkbean/dingtalk)](https://goreportcard.com/report/github.com/blinkbean/dingtalk)
+</div>
+
+## 钉钉机器人消息封装——Golang
 
 目前自定义机器人支持
 - [OutGoing](#outgoing) `新`
