@@ -105,7 +105,8 @@ func NewMarkDownMsg(title string, text interface{}, opts ...atOption) *markDownM
 	if len(msg.At.AtMobiles) > 0 {
 		var atStr = "\n -"
 		for _, mobile := range msg.At.AtMobiles {
-			atStr = atStr + " @" + mobile
+			// 为@设置默认颜色
+			atStr = fmt.Sprintf("<font color=#0089ff>%s @%s</font>", atStr, mobile)
 		}
 		msg.Markdown.Text = msg.Markdown.Text + atStr
 	}
