@@ -38,6 +38,12 @@ func WithAtMobiles(mobiles []string) atOption {
 	})
 }
 
+func WithAtUserIds(userids []string) atOption {
+	return newFuncAtOption(func(o *atModel) {
+		o.AtUserIds = userids
+	})
+}
+
 type textMsg struct {
 	MsgType msgTypeType `json:"msgtype,omitempty"`
 	Text    textModel   `json:"text,omitempty"`
@@ -107,6 +113,15 @@ func NewMarkDownMsg(title string, text interface{}, opts ...atOption) *markDownM
 		for _, mobile := range msg.At.AtMobiles {
 			// 为@设置默认颜色
 			atStr = fmt.Sprintf("<font color=#0089ff>%s @%s</font>", atStr, mobile)
+		}
+		msg.Markdown.Text = msg.Markdown.Text + atStr
+	}
+
+	if len(msg.At.AtUserIds) > 0 {
+		var atStr = "\n -"
+		for _, userid := range msg.At.AtUserIds {
+			// 为@设置默认颜色
+			atStr = fmt.Sprintf("<font color=#0089ff>%s @%s</font>", atStr, userid)
 		}
 		msg.Markdown.Text = msg.Markdown.Text + atStr
 	}

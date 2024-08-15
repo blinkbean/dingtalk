@@ -58,6 +58,7 @@ type textModel struct {
 
 type atModel struct {
 	AtMobiles []string `json:"atMobiles,omitempty"`
+	AtUserIds []string `json:"atUserIds,omitempty"`
 	IsAtAll   bool     `json:"isAtAll,omitempty"`
 }
 
